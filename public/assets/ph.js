@@ -1,4 +1,4 @@
-/* Piano Hero 0.1.0 — every institution a key, every quarter a bar. Cedwyn Estate webapp. — Sion's Tab agent */
+/* Piano Hero 0.2.0 — every party a key (most active in the middle), every quarter a bar, every month from 2026. Cedwyn Estate webapp. — Sion's Tab agent */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -73,7 +73,7 @@
     var k = K[i], inst = D.institutions[i];
     lab.innerHTML = ''; var b = document.createElement('b'); b.textContent = '#' + inst.n; lab.appendChild(b);
     lab.appendChild(document.createTextNode(inst.name));
-    var sm = document.createElement('small'); sm.textContent = ' · ' + noteName(k.m); sm.style.opacity = '.7'; lab.appendChild(sm);
+    var sm = document.createElement('small'); sm.textContent = ' · ' + inst.events + ' active days · ' + noteName(k.m); sm.style.opacity = '.7'; lab.appendChild(sm);
     var gut = kb.getBoundingClientRect().left - app.getBoundingClientRect().left, kw = kb.clientWidth, cx = gut + kw * (k.kl + k.kr) / 200;
     var aw = app.clientWidth; lab.style.left = '0px'; lab.classList.add('on'); var lw = lab.offsetWidth;
     lab.style.left = Math.max(lw / 2 + 4, Math.min(aw - lw / 2 - 4, cx)) + 'px';
@@ -89,28 +89,33 @@
   /* ---------- build ---------- */
   function el(tag, cls, parent) { var e = document.createElement(tag); if (cls) e.className = cls; if (parent) parent.appendChild(e); return e; }
   function build() {
-    N = D.institutions.length; Q = D.quarters.length;
+    N = D.institutions.length; Q = D.rows.length; var MF = D.monthly_from;
     var g = geometry(N); K = g.keys;
-    $('ph-sub').textContent = N + ' institutions · ' + D.counts.events + ' active days · ' + D.quarters[0] + ' to ' + D.quarters[Q - 1] + ' · tap a key';
-    $('ph-size').textContent = N + ' keys, ' + Q + ' quarters';
+    $('ph-sub').textContent = N + ' parties · ' + D.counts.events + ' active days · quarters from ' + D.rows[0] + ', months from ' + (D.rows[MF] || '2026') + ' · tap a key';
+    $('ph-size').textContent = N + ' keys, ' + MF + ' quarters + ' + (Q - MF) + ' months';
     var lo = D.left_out || [];
-    $('ph-note').textContent = 'Sources: ' + D.sources.catalogue + '; ' + D.sources.erp + '; ' + D.sources.journal + '. One count is one institution active on one day; the same day in two sources counts once. Keys are ordered by first activity. ' +
+    var S = D.sources; $('ph-note').textContent = 'Sources: ' + [S.email, S.catalogue, S.erp, S.journal, S.wdtk, S.website, S.williams].join('; ') + '. One count is one party active on one day; the same day in two sources counts once. Keys are ordered by activity: the most active party sits on the middle key, the next ones alternate either side, the least active are at both ends; numbers run left to right. Rows are quarters to the end of 2025, then months from January 2026. ' +
       (lo.length ? lo.length + ' bodies with a single active day are not on the keys, because a piano has 88: ' + lo.join(', ') + '.' : '') + ' Data built ' + D.generated + '.';
     // keys
     var kf = 'calc(min(9px, ' + (100 / g.whites * 0.62).toFixed(3) + 'vw))';
     K.forEach(function (k, i) {
       var inst = D.institutions[i], b = el('button', 'ph-k ' + (k.w ? 'w' : 'b'), kb);
       b.type = 'button'; b.dataset.i = i; b.style.left = k.kl + '%'; b.style.width = (k.kr - k.kl) + '%'; b.style.setProperty('--kf', kf);
-      b.setAttribute('aria-label', inst.n + ': ' + inst.name + ' (' + noteName(k.m) + ')');
+      b.setAttribute('aria-label', inst.n + ': ' + inst.name + ', ' + inst.events + ' active days (' + noteName(k.m) + ')');
       var s = el('span', '', b); s.textContent = inst.n; keyEls.push(b);
       var c = el('div', 'ph-col' + (k.w ? '' : ' b'), grid); c.style.left = k.cl + '%'; c.style.width = (k.cr - k.cl) + '%'; colEls.push(c);
     });
-    // rows (1988-Q1 at the bottom, the latest at the top)
+    // rows (1988-Q1 at the bottom, the latest at the top): quarters to 2025-Q4, then months from 2026-01
     for (var q = 0; q < Q; q++) {
-      var r = el('div', 'ph-row' + (/Q1$/.test(D.quarters[q]) ? ' q1' : ''), grid); r.style.top = 'calc(var(--pad) + ' + (Q - 1 - q) + ' * var(--ph-row))';
-      el('span', '', r).textContent = D.quarters[q]; rowNotes.push([]);
+      var lbl = D.rows[q], r = el('div', 'ph-row' + (/(Q1|-01)$/.test(lbl) ? ' q1' : '') + (q >= MF ? ' mo' : ''), grid);
+      r.style.top = 'calc(var(--pad) + ' + (Q - 1 - q) + ' * var(--ph-row))';
+      el('span', '', r).textContent = lbl; rowNotes.push([]);
     }
-    var end = el('div', 'ph-end', grid); end.style.height = 'var(--pad)'; end.textContent = '— ' + D.quarters[Q - 1] + ' —';
+    if (MF > 0 && MF < Q) {
+      var sw = el('div', 'ph-sw', grid); sw.style.top = 'calc(var(--pad) + ' + (Q - MF) + ' * var(--ph-row))';
+      el('span', '', sw).textContent = 'monthly from January 2026 ↑ · quarterly below ↓';
+    }
+    var end = el('div', 'ph-end', grid); end.style.height = 'var(--pad)'; end.textContent = '— ' + D.rows[Q - 1] + ' —';
     D.notes.forEach(function (nt) {
       var q = nt[0], i = nt[1], n = nt[2], k = K[i], e = el('div', 'ph-n', grid);
       e.style.left = ((k.cl + k.cr) / 2) + '%'; e.style.top = 'calc(var(--pad) + ' + (Q - 1 - q + 0.5) + ' * var(--ph-row))';
@@ -147,7 +152,7 @@
     var maxS = Math.max(1, H - viewH);
     par.style.transform = 'translateY(' + (0.4 * (pos - maxS)).toFixed(1) + 'px)';
     var k = Math.min(Q - 1, Math.floor(rowsPassed()));
-    nowEl.textContent = 'at the keys: ' + D.quarters[Math.max(0, k)];
+    nowEl.textContent = 'at the keys: ' + D.rows[Math.max(0, k)];
   }
 
   /* ---------- playback: the table slides down onto the keys; each row plays as its notes reach the line ---------- */
@@ -218,8 +223,8 @@
 
   var rz = 0; function relayout() { clearTimeout(rz); rz = setTimeout(function () { if (D) layout(false); }, 120); }
   window.addEventListener('resize', relayout); window.addEventListener('orientationchange', function () { autoScrolled = false; relayout(); });
-  fetch('data/activity.json?v=0.1.0').then(function (r) { return r.json(); }).then(function (j) {
+  fetch('data/activity.json?v=0.2.0').then(function (r) { return r.json(); }).then(function (j) {
     D = j; build(); [300, 1000, 2500].forEach(function (ms) { setTimeout(function () { layout(false); }, ms); });
-    window.PianoHero = { version: '0.1.0', press: press, play: start, pause: stop, data: D };
+    window.PianoHero = { version: '0.2.0', press: press, play: start, pause: stop, data: D };
   }).catch(function () { $('ph-sub').textContent = 'The activity data did not load. Please reload the page.'; });
 })();
