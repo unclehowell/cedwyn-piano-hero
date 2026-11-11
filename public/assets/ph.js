@@ -147,7 +147,7 @@
     var maxS = Math.max(1, H - viewH);
     par.style.transform = 'translateY(' + (0.4 * (pos - maxS)).toFixed(1) + 'px)';
     var k = Math.min(Q - 1, Math.floor(rowsPassed()));
-    nowEl.textContent = D.quarters[Math.max(0, k)];
+    nowEl.textContent = 'at the keys: ' + D.quarters[Math.max(0, k)];
   }
 
   /* ---------- playback: the table slides down onto the keys; each row plays as its notes reach the line ---------- */
