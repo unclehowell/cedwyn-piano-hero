@@ -25,7 +25,7 @@ def get(u, raw=False, t=60):
 BANNED = re.compile(r'\b(says|claims?|claimed|according to|hearsay|unverified|alleged(ly)?|fraud\w*|stolen|testimony|recollections?)\b|1547|1552', re.I)
 EARLY_HOUSE = re.compile(r't[yŷ] mawr|great house|bute|cedfin|cydfin|ken fin', re.I)
 HOLDINGS = re.compile(r'\bparcel\b|holding', re.I)
-PRIVATE = re.compile(r'\b(Branwen|Sion|Hywel)\b', re.I)
+PRIVATE = re.compile(r"\b[A-Z][a-z]+['’]s (statement|letter|email|note)\b")   # a private person's own document, named by first name
 GIVEN = set('Mary John William Thomas David Bruce George Ted Alun Daniel Alfred Amy Ellen Colin Edward Elizabeth Margaret Ann Anne Jane '
             'Sarah James Robert Richard Henry Charles Peter Michael Paul Mark Susan Linda Patricia Jean Joan Doris Evan Ivor Gwyn Gareth '
             'Rhys Dafydd Huw Emrys Glyn Megan Nancy Fred Frederick Billy Bucky Jenkin Owen Hugh Arthur Albert Ernest Frank Harold Walter '
@@ -67,8 +67,8 @@ def clean(s):
     s = re.sub(r'\s*\((?:[^()]*\d{4}[^()]*)\)', '', s)
     s = re.sub(r"\bMr\.? Buckler('s|’s)?\b", lambda m: 'the farmer' + ("'s" if m.group(1) else ''), s)
     s = re.sub(r"\bMrs\.? Buckler('s|’s)?\b", lambda m: 'the family' + ("'s" if m.group(1) else ''), s)
-    s = re.sub(r"\b(William|Billy|Fred|Frederick|Bucky|Sion|Hywel|Nancy)(\s+\(\w+\))?\s+Buckler(s'|'s|’s|s)?\b",
-               lambda m: 'the family' + ("'s" if m.group(3) else ''), s)
+    s = re.sub(r"(?<!\bv )(?<!\bvs )\b(?!Mr\b|Mrs\b|BP\b)[A-Z][a-z]+(\s+\(\w+\))?\s+Buckler(s'|'s|’s|s)?\b(?!\s+[Ff]amily)",
+               lambda m: 'a family member' + ("'s" if m.group(2) else ''), s)
     s = re.sub(r',?\s*\b\d+[a-z]?\s+[A-Z][a-z]+(\s[A-Z][a-z]+)?\s(Road|Close|Street|Lane|Avenue)\b', '', s)
     s = re.sub(r'\s*\((?:lead|not checked)[^()]*\)', '', s)
     s = re.sub(r'(\s[-–—])(\s[-–—])+', r'\1', s)
