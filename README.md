@@ -7,6 +7,7 @@ Every party in the Cedwyn record is a piano key, the least active on the far lef
 four-year count-in before the 1500s (one row), then a row a year from 1600, every quarter from 1988 and every month from January 2026; a note sits wherever that party was active.
 Press play and the table slides down like a rhythm game; each note sounds as it reaches the centre line, on a steady beat (an empty stretch takes at most two beats).
 A filter plays All notes, only press coverage, later citation and interpretation, or only verbatim source records and transcripts; each note's label shows the record's picture or a placeholder tile with its catalogue ID.
+An (i) button sits on top of every key (v0.3.1): it opens a small panel with the party's name, active days, first and last year and the catalogue IDs of its notes (no links); Esc, the × button or a tap outside closes it.
 
 ## Data (v0.3.0; see the tools/build_data.py docstring for the rows, the filter classes and the label facts)
 `public/data/activity.json` is built by `tools/build_data.py`
