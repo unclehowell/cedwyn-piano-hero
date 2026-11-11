@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="app-version" content="0.3.1">
+<meta name="app-version" content="0.4.0">
 <meta name="screen-orientation" content="landscape">
 <title>Piano Hero · every party a key, from the 1500s to today · Cedwyn Estate</title>
-<meta name="description" content="Piano Hero: one piano key for each party in the Cedwyn record, each with an info button, the least active on the left and the most active on the right; from a short count-in before the 1500s to this month, a note wherever that party was active. Press play: each note sounds at the centre line, on a steady beat.">
+<meta name="description" content="Piano Hero: one piano key for each party in the Cedwyn record, each with an info button; the busiest parties play the middle of the keyboard, just above middle C. From a short count-in before the 1500s to this month, a note wherever that party was active, each label summing up the event with the record's picture. Press play: each note sounds at the centre line over a backing loop on a steady beat.">
 <link rel="canonical" href="https://bucklerfamily.estate/piano-hero/">
 <meta property="og:title" content="Piano Hero · Cedwyn Estate">
-<meta property="og:description" content="Every party a key, the busiest on the right; from the 1500s to this month on a steady beat: play the record.">
+<meta property="og:description" content="Every party a key, the busiest in the middle; from the 1500s to this month over a backing loop: play the record.">
 <meta property="og:url" content="https://bucklerfamily.estate/piano-hero/">
 <meta name="theme-color" content="#14110d">
-<link rel="stylesheet" href="assets/ph.css?v=0.3.1">
+<link rel="stylesheet" href="assets/ph.css?v=0.4.0">
 <script>window.__cedwynLP="/piano-hero/"</script><script src="/_cedwyn/ghf/ghf-boot.js?v=2.1.30"></script>
 </head>
 <body class="ph-body">
-<section id="ph" class="ph" aria-label="Piano Hero" data-version="0.3.1">
+<section id="ph" class="ph" aria-label="Piano Hero" data-version="0.4.0">
   <div class="ph-top">
     <h1 class="ph-title">Piano Hero</h1>
-    <span class="ph-sub" id="ph-sub">parties as keys · busiest on the right</span>
+    <span class="ph-sub" id="ph-sub">parties as keys · busiest in the middle</span>
     <label class="ph-filt"><span class="ph-vh">Show notes</span><select id="ph-filter" aria-label="Show notes"><option value="all">All</option><option value="p">Press coverage, later citation &amp; interpretation</option><option value="v">Verbatim source record or transcript</option></select></label>
-    <span class="ph-ver"><span>v0.3.1 · free</span><button type="button" class="ph-i" id="ph-i" aria-haspopup="dialog" aria-controls="ph-log" title="Version history">i</button></span>
+    <span class="ph-ver"><span>v0.4.0 · free</span><button type="button" class="ph-i" id="ph-i" aria-haspopup="dialog" aria-controls="ph-log" title="Version history">i</button></span>
   </div>
   <div class="ph-stage" id="ph-stage">
     <div class="ph-scroll" id="ph-scroll" tabindex="0" aria-label="Activity grid: one column per party, one row per period (the 1500s, years from 1600, quarters from 1988, months from 2026)">
@@ -33,6 +33,7 @@
     <div class="ph-ctl">
       <button type="button" class="ph-play" id="ph-play" aria-label="Play" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5v14l11-7z"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
       <button type="button" class="ph-x2" id="ph-x2" aria-label="Double speed" aria-pressed="false" hidden>×2</button>
+      <span class="ph-bkw"><button type="button" class="ph-bk" id="ph-bk" aria-pressed="true" aria-label="Mute the backing loop" title="Backing loop: mallets, guitar and voices on the beat">♫</button><input type="range" class="ph-bkv" id="ph-bkv" min="0" max="100" step="1" value="40" aria-label="Backing loop volume"></span>
     </div>
   </div>
   <div class="ph-ir-wrap"><div class="ph-gut" aria-hidden="true"></div><div class="ph-ir" id="ph-ir" role="group" aria-label="About each key: one info button per party"></div></div>
@@ -40,7 +41,7 @@
     <div class="ph-ip-h"><span id="ph-ip-t"></span><button type="button" class="ph-x" id="ph-ip-x" aria-label="Close">×</button></div>
     <div class="ph-ip-b" id="ph-ip-b"></div>
   </div>
-  <div class="ph-kb-wrap"><div class="ph-gut" aria-hidden="true"></div><div class="ph-kb" id="ph-kb" role="group" aria-label="Piano keyboard: one key per party, the least active on the left, the most active on the right"></div></div>
+  <div class="ph-kb-wrap"><div class="ph-gut" aria-hidden="true"></div><div class="ph-kb" id="ph-kb" role="group" aria-label="Piano keyboard: one key per party; the quietest on the left half, the busiest from just above middle C rising to the top"></div></div>
   <div class="ph-rotate" id="ph-rotate" role="dialog" aria-modal="false" aria-labelledby="ph-rot-t" hidden>
     <div class="ph-rot-in"><div class="ph-phone" aria-hidden="true"></div>
     <p id="ph-rot-t"><b>Turn your phone sideways.</b><br>Piano Hero is played in landscape.</p>
@@ -49,10 +50,10 @@
   <dialog class="ph-log" id="ph-log" aria-labelledby="ph-log-t">
     <div class="ph-log-h"><b id="ph-log-t">Piano Hero · versions</b><button type="button" class="ph-x" id="ph-log-x" aria-label="Close">×</button></div>
     <div class="ph-log-b"><table><thead><tr><th>Version</th><th>Date</th><th>What changed</th><th>Size</th><th>Price</th></tr></thead>
-    <tbody><tr><td>0.3.1</td><td>2026-11-11</td><td>An (i) button along the top of the keyboard for every key. Tap or click it to see that party's name, its number of active days, the first and last year it appears, and the catalogue IDs of its records. Close it with Esc, the × button or a tap outside. The buttons can be reached with the Tab key and moved along with the arrow keys.</td><td id="ph-size">88 keys</td><td>free</td></tr><tr><td>0.3.0</td><td>2026-11-11</td><td>Keys run from the least active party on the far left to the most active on the far right, so the left half holds only the quietest parties. The record now starts with a four-year count-in before the 1500s (the 1,000-year lease), then one row a year from 1600, quarters from 1988 and months from 2026. Notes sound when they reach the centre line of the screen. Empty stretches pass on a steady beat: a gap between two notes takes at most two beats, with the year counter running through the empty years. Each note's label shows the record's picture, or a placeholder tile with its catalogue ID. A filter plays All notes, only press coverage, later citation and interpretation, or only verbatim source records and transcripts.</td><td>88 keys, 393 year rows + 152 quarters + 11 months</td><td>free</td></tr><tr><td>0.2.0</td><td>2026-11-11</td><td>Keys reordered by activity: the most active party on the middle key, the next ones alternating either side, the least active at the two ends; numbers now run 1 to 88 from left to right. The Williams family added as a party (days on which a reply, a dated record or a chronology event names the family). Rows run quarterly to 2025-Q4 and monthly from January 2026, with the switch marked. Activity now counts emails received from institutions and leaves out emails sent to them; also counted: WhatDoTheyKnow responses and website changes picked up by the watchtower. Tapping a key shows its active days.</td><td>88 keys, 152 quarters + 11 months</td><td>free</td></tr><tr><td>0.1.0</td><td>2026-11-11</td><td>First release. One key per institution on a real 88-key layout (white and black keys), numbered; a row per quarter from 1988-Q1; a note wherever that body was active (the central catalogue, the ERP request data and the activity journal, one count per active day). Play rolls the years down onto the keys; ×2 doubles the speed; long quiet stretches pass faster.</td><td>88 keys, 156 quarters</td><td>free</td></tr></tbody></table>
+    <tbody><tr><td>0.4.0</td><td>2026-11-11</td><td>The busiest parties now play the middle of the keyboard: the right half is turned round, so the most active party sits just above middle C and the parties grow quieter towards the top (the left half still holds the quietest, least active on the far left). Each label now sums up the event on its date (date first, then what happened, from the catalogue record), with the party's badge and its name as a #hashtag underneath. Labels show the record's picture from the catalogue, larger, wherever the catalogue holds one (37 records, served from this site), and the catalogue's own placeholder for the record's kind where it holds none. A backing loop (mallets, a plucked guitar and soft voices, made in the page with no recordings) plays on the same beat as the notes, with its own on/off button and volume.</td><td id="ph-size">88 keys, 37 pictures</td><td>free</td></tr><tr><td>0.3.1</td><td>2026-11-11</td><td>An (i) button along the top of the keyboard for every key. Tap or click it to see that party's name, its number of active days, the first and last year it appears, and the catalogue IDs of its records. Close it with Esc, the × button or a tap outside. The buttons can be reached with the Tab key and moved along with the arrow keys.</td><td>88 keys</td><td>free</td></tr><tr><td>0.3.0</td><td>2026-11-11</td><td>Keys run from the least active party on the far left to the most active on the far right, so the left half holds only the quietest parties. The record now starts with a four-year count-in before the 1500s (the 1,000-year lease), then one row a year from 1600, quarters from 1988 and months from 2026. Notes sound when they reach the centre line of the screen. Empty stretches pass on a steady beat: a gap between two notes takes at most two beats, with the year counter running through the empty years. Each note's label shows the record's picture, or a placeholder tile with its catalogue ID. A filter plays All notes, only press coverage, later citation and interpretation, or only verbatim source records and transcripts.</td><td>88 keys, 393 year rows + 152 quarters + 11 months</td><td>free</td></tr><tr><td>0.2.0</td><td>2026-11-11</td><td>Keys reordered by activity: the most active party on the middle key, the next ones alternating either side, the least active at the two ends; numbers now run 1 to 88 from left to right. The Williams family added as a party (days on which a reply, a dated record or a chronology event names the family). Rows run quarterly to 2025-Q4 and monthly from January 2026, with the switch marked. Activity now counts emails received from institutions and leaves out emails sent to them; also counted: WhatDoTheyKnow responses and website changes picked up by the watchtower. Tapping a key shows its active days.</td><td>88 keys, 152 quarters + 11 months</td><td>free</td></tr><tr><td>0.1.0</td><td>2026-11-11</td><td>First release. One key per institution on a real 88-key layout (white and black keys), numbered; a row per quarter from 1988-Q1; a note wherever that body was active (the central catalogue, the ERP request data and the activity journal, one count per active day). Play rolls the years down onto the keys; ×2 doubles the speed; long quiet stretches pass faster.</td><td>88 keys, 156 quarters</td><td>free</td></tr></tbody></table>
     <p class="ph-note" id="ph-note"></p></div>
   </dialog>
 </section>
-<script src="assets/ph.js?v=0.3.1" defer></script>
+<script src="assets/ph.js?v=0.4.0" defer></script>
 </body>
 </html>
