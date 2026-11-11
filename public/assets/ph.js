@@ -1,4 +1,4 @@
-/* Piano Hero 0.3.0 — every party a key (least active far left, most active far right), from a short count-in before the 1500s to this month; notes sound at the centre line, empty stretches pass on a steady beat. Cedwyn Estate webapp. — Sion's Tab agent */
+/* Piano Hero 0.3.1 — every party a key (each with an (i) info button along the top of the keyboard) (least active far left, most active far right), from a short count-in before the 1500s to this month; notes sound at the centre line, empty stretches pass on a steady beat. Cedwyn Estate webapp. — Sion's Tab agent */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -6,6 +6,7 @@
       lab = $('ph-label'), btnPlay = $('ph-play'), btnX2 = $('ph-x2'), nowEl = $('ph-now'), rot = $('ph-rotate'), sel = $('ph-filter');
   if (!app) return;
   var D, N = 0, Q = 0, K = [], keyEls = [], colEls = [], rowNotes = [], nextNoteRow = [];
+  var ir = $('ph-ir'), ip = $('ph-ip'), ipT = $('ph-ip-t'), ipB = $('ph-ip-b'), ipX = $('ph-ip-x'), irEls = [], kinfo = [], ipOpen = -1;
   var rowH = 24, viewH = 300, padTop = 300, padBot = 150, H = 0;
   var playing = false, dbl = false, pos = 0, lastP = null, raf = 0, lastT = 0, programmatic = false;
   /* 0.3.0 tempo: one beat per note row; an empty stretch between two note rows takes at most CAP beats however many rows it spans */
@@ -131,12 +132,20 @@
       (FC.p || 0) + ' notes are press coverage, later citation or interpretation; ' + (FC.v || 0) + ' are verbatim source records or transcripts; ' + (FC.unclassified || 0) + ' are not classified and show under All only. ' +
       (lo.length ? lo.length + ' bodies with a single active day are not on the keys, because a piano has 88: ' + lo.join(', ') + '.' : '') + ' Data built ' + D.generated + '.';
     // keys
-    var kf = 'calc(min(9px, ' + (100 / g.whites * 0.62).toFixed(3) + 'vw))';
+    var kf = 'calc(min(9px, ' + (100 / g.whites * 0.62).toFixed(3) + 'vw))', iif = 'calc(min(7px, ' + (100 / g.whites * 0.5).toFixed(3) + 'vw))';
     K.forEach(function (k, i) {
       var inst = D.institutions[i], b = el('button', 'ph-k ' + (k.w ? 'w' : 'b'), kb);
       b.type = 'button'; b.dataset.i = i; b.style.left = k.kl + '%'; b.style.width = (k.kr - k.kl) + '%'; b.style.setProperty('--kf', kf);
       b.setAttribute('aria-label', inst.n + ': ' + inst.name + ', ' + inst.events + ' active days (' + noteName(k.m) + ')');
       var s = el('span', '', b); s.textContent = inst.n; keyEls.push(b);
+      if (ir) {   // the key's (i) button along the top of the keyboard (white keys on the lower tier, black keys above)
+        var ib = el('button', 'ph-ii ' + (k.w ? 'w' : 'b'), ir); ib.type = 'button'; ib.dataset.i = i;
+        ib.style.left = k.kl + '%'; ib.style.width = (k.kr - k.kl) + '%'; ib.style.setProperty('--iif', iif);
+        ib.setAttribute('aria-label', 'About key ' + inst.n + ': ' + inst.name); ib.setAttribute('aria-haspopup', 'dialog');
+        ib.setAttribute('aria-controls', 'ph-ip'); ib.setAttribute('aria-expanded', 'false');
+        el('span', '', ib).textContent = 'i'; irEls.push(ib);
+      }
+      kinfo.push({ q0: -1, q1: -1, ids: {} });
       var c = el('div', 'ph-col' + (k.w ? '' : ' b'), grid); c.style.left = k.cl + '%'; c.style.width = (k.cr - k.cl) + '%'; colEls.push(c);
     });
     // rows (the count-in at the bottom, the latest month at the top)
@@ -157,6 +166,7 @@
       var lvl = Math.min(1, Math.log(1 + n) / Math.log(9)); e.style.setProperty('--o', (0.55 + 0.45 * lvl).toFixed(2)); e.style.setProperty('--s', (0.78 + 0.32 * lvl).toFixed(2));
       el('i', '', e); var o = { i: i, n: n, v: nt[3] || 0, p: nt[4] || 0, refs: nt[5] || [], e: e, q: q };
       rowNotes[q].push(o); allNotes.push(o);
+      var ki = kinfo[i]; if (ki) { if (ki.q0 < 0 || q < ki.q0) ki.q0 = q; if (q > ki.q1) ki.q1 = q; o.refs.forEach(function (r) { ki.ids[r] = 1; }); }
     });
     rowNotes.forEach(function (a) { a.sort(function (x, y) { return x.i - y.i; }); });
     // filter control
@@ -305,9 +315,55 @@
   });
   document.addEventListener('keydown', function (ev) {
     if (ev.target && /INPUT|TEXTAREA|SELECT/.test(ev.target.tagName)) return;
-    if (ev.key === ' ' && !(ev.target && ev.target.closest && ev.target.closest('.ph-k,.ph-play,.ph-x2,.ph-i,dialog'))) { ev.preventDefault(); playing ? stop() : start(); }
+    if (ev.key === ' ' && !(ev.target && ev.target.closest && ev.target.closest('.ph-k,.ph-play,.ph-x2,.ph-i,.ph-ii,.ph-ip,dialog'))) { ev.preventDefault(); playing ? stop() : start(); }
     else if ((ev.key === '2' || ev.key === 'x') && playing) btnX2.click();
   });
+
+  /* ---------- (i) per key: name, events, first and last year, catalogue IDs (no links) ---------- */
+  function yearOf(l) { return l === '1500s' ? 'the 1500s' : String(l).slice(0, 4); }
+  function idSort(a, b) { var pa = a.replace(/[^A-Z].*$/, ''), pb = b.replace(/[^A-Z].*$/, ''); return pa < pb ? -1 : pa > pb ? 1 : (a < b ? -1 : a > b ? 1 : 0); }
+  function placeInfo(i) {
+    var k = K[i], gut = kb.getBoundingClientRect().left - app.getBoundingClientRect().left, cx = gut + kb.clientWidth * (k.kl + k.kr) / 200;
+    var aw = app.clientWidth, w = ip.offsetWidth; ip.style.left = Math.max(6, Math.min(aw - w - 6, cx - w / 2)) + 'px';
+    ip.style.maxHeight = Math.max(140, stage.clientHeight - 10) + 'px';
+  }
+  function openInfo(i) {
+    if (!ip || !D.institutions[i]) return;
+    if (ipOpen >= 0 && irEls[ipOpen]) irEls[ipOpen].setAttribute('aria-expanded', 'false');
+    var inst = D.institutions[i], ki = kinfo[i] || { q0: -1, q1: -1, ids: {} }, ids = Object.keys(ki.ids).sort(idSort);
+    ipT.innerHTML = ''; var b = document.createElement('b'); b.textContent = '#' + inst.n + ' '; ipT.appendChild(b); ipT.appendChild(document.createTextNode(inst.name));
+    ipB.innerHTML = '';
+    var dl = el('dl', '', ipB);
+    function row(t, v) { el('dt', '', dl).textContent = t; el('dd', '', dl).textContent = v; }
+    row('Events', inst.events + ' active day' + (inst.events === 1 ? '' : 's'));
+    row('First', ki.q0 >= 0 ? yearOf(D.rows[ki.q0]) : '–');
+    row('Last', ki.q1 >= 0 ? yearOf(D.rows[ki.q1]) : '–');
+    var h = el('p', 'ph-ip-s', ipB);
+    if (ids.length) {
+      h.textContent = 'Catalogue IDs (' + ids.length + ')';
+      var ul = el('ul', '', ipB); ul.setAttribute('aria-label', 'Catalogue IDs');
+      ids.forEach(function (r) { el('li', '', ul).textContent = r; });
+    } else h.textContent = 'No catalogue ID on this key’s notes (they come from emails received or website changes).';
+    ip.hidden = false; ip.dataset.i = i; ipOpen = i; ipB.scrollTop = 0;
+    if (irEls[i]) irEls[i].setAttribute('aria-expanded', 'true');
+    placeInfo(i); light(i, 700);
+    try { ipX.focus({ preventScroll: true }); } catch (e) { ipX.focus(); }
+  }
+  function closeInfo(back) {
+    if (!ip || ipOpen < 0) return; var i = ipOpen; ip.hidden = true; ipOpen = -1; delete ip.dataset.i;
+    if (irEls[i]) { irEls[i].setAttribute('aria-expanded', 'false'); if (back) { try { irEls[i].focus({ preventScroll: true }); } catch (e) { irEls[i].focus(); } } }
+  }
+  if (ir && ip) {
+    ir.addEventListener('click', function (ev) { var b = ev.target.closest && ev.target.closest('.ph-ii'); if (!b) return; var i = +b.dataset.i; if (ipOpen === i) closeInfo(true); else openInfo(i); });
+    ir.addEventListener('keydown', function (ev) {
+      var b = ev.target.closest && ev.target.closest('.ph-ii'); if (!b) return; var i = +b.dataset.i;
+      if (ev.key === 'ArrowRight' && i < N - 1) { irEls[i + 1].focus(); ev.preventDefault(); }
+      if (ev.key === 'ArrowLeft' && i > 0) { irEls[i - 1].focus(); ev.preventDefault(); }
+    });
+    ipX.addEventListener('click', function () { closeInfo(true); });
+    document.addEventListener('keydown', function (ev) { if ((ev.key === 'Escape' || ev.key === 'Esc') && ipOpen >= 0) { ev.preventDefault(); closeInfo(true); } });
+    document.addEventListener('pointerdown', function (ev) { if (ipOpen < 0) return; var t = ev.target; if (ip.contains(t) || (t.closest && t.closest('.ph-ii'))) return; closeInfo(false); }, true);
+  }
 
   /* ---------- landscape first ---------- */
   var mq = window.matchMedia('(orientation: portrait)');
@@ -322,10 +378,10 @@
   $('ph-log-x').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); $('ph-i').focus(); });
   dlg.addEventListener('close', function () { $('ph-i').focus(); });
 
-  var rz = 0; function relayout() { clearTimeout(rz); rz = setTimeout(function () { if (D) layout(false); }, 120); }
+  var rz = 0; function relayout() { clearTimeout(rz); rz = setTimeout(function () { if (D) { layout(false); if (ipOpen >= 0) placeInfo(ipOpen); } }, 120); }
   window.addEventListener('resize', relayout); window.addEventListener('orientationchange', function () { autoScrolled = false; relayout(); });
-  fetch('data/activity.json?v=0.3.0').then(function (r) { return r.json(); }).then(function (j) {
+  fetch('data/activity.json?v=0.3.1').then(function (r) { return r.json(); }).then(function (j) {
     D = j; build(); [300, 1000, 2500].forEach(function (ms) { setTimeout(function () { layout(false); }, ms); });
-    window.PianoHero = { version: '0.3.0', press: press, play: start, pause: stop, data: D, filter: setFilter, segments: function () { return segs; }, beat: BEAT, cap: CAP, rowsPassed: rowsPassed, fire: fire };
+    window.PianoHero = { version: '0.3.1', info: openInfo, closeInfo: closeInfo, press: press, play: start, pause: stop, data: D, filter: setFilter, segments: function () { return segs; }, beat: BEAT, cap: CAP, rowsPassed: rowsPassed, fire: fire };
   }).catch(function () { $('ph-sub').textContent = 'The activity data did not load. Please reload the page.'; });
 })();
