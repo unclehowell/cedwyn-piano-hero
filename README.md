@@ -3,11 +3,12 @@
 **Live:** https://bucklerfamily.estate/piano-hero/ — served from this repo's `main`, folder `public/`, by the Cloudflare Worker
 `bfe-piano-hero` (source `worker/bfe-piano-hero.js`; GitHub raw, edge-cached 5 minutes, so a push to `main` is live within about 5 minutes).
 
-Every party in the Cedwyn record is a piano key (v0.4.0): the left half holds the quietest parties, least active on the far left; the right half starts with the most active party on key 45 (F4, just above middle C) and grows quieter towards the top, so the busiest parties play the middle of the keyboard; the rows run from a
+Every party in the Cedwyn record is a piano key (v0.5.0): the left half holds the quietest parties, least active on the far left; the right half starts with the most active party on key 45 (F4, just above middle C) and grows quieter towards the top, so the busiest parties play the middle of the keyboard; the rows run from a
 four-year count-in before the 1500s (one row), then a row a year from 1600, every quarter from 1988 and every month from January 2026; a note sits wherever that party was active.
 Press play and the table slides down like a rhythm game; each note sounds as it reaches the centre line, on a steady beat (an empty stretch takes at most two beats).
 A filter plays All notes, only press coverage, later citation and interpretation, or only verbatim source records and transcripts; each note's label sums up the event on its date (from the catalogue record) with the record's picture where the catalogue holds one (else the catalogue's placeholder for its kind), and the party's badge and #hashtag (v0.4.0).
 A backing loop (mallets, guitar, soft voices; synthesised with WebAudio, no samples, so no licence applies) plays on the beat with its own on/off button and volume (v0.4.0).
+A visible record card stays on screen while playback is paused; its remaining display time resumes with playback. Select a note card carrying a catalogue ID to open that full central catalogue entry in a modal, with an option to open the same entry in the catalogue (v0.5.0).
 An (i) button sits on top of every key (v0.3.1): it opens a small panel with the party's name, active days, first and last year and the catalogue IDs of its notes (no links); Esc, the × button or a tap outside closes it.
 
 ## Data (v0.3.0; see the tools/build_data.py docstring for the rows, the filter classes and the label facts)
