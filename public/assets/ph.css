@@ -173,12 +173,12 @@ html[data-ghf-mode=night]{--ph-bg:#0b0c0b;--ph-ink:#e8ece9;--ph-muted:#a3ada8;--
 #ph .ph-record-heading b{font:700 13px/1.2 system-ui,sans-serif}
 #ph .ph-record-heading small{font:11px/1.2 ui-monospace,Menlo,monospace;color:var(--ph-muted)}
 #ph .ph-record-actions{display:flex;align-items:center;gap:12px;white-space:nowrap}
-#ph .ph-record-actions a{font:600 12px/1.2 system-ui,sans-serif;color:var(--ph-ink)}
+#ph .ph-record-actions .ph-record-open{font:600 12px/1.2 system-ui,sans-serif;color:var(--ph-ink);border:1px solid var(--ph-line);border-radius:18px;padding:6px 9px;background:transparent;cursor:pointer}
 #ph .ph-record-frame{display:block;width:100%;height:calc(100% - 52px);border:0;background:#fff}
 @media(max-width:560px){
   #ph .ph-record{width:98vw;height:94vh;max-height:94vh}
   #ph .ph-record-h{height:46px;padding:6px 8px;gap:8px}
   #ph .ph-record-frame{height:calc(100% - 46px)}
   #ph .ph-record-actions{gap:8px}
-  #ph .ph-record-actions a{font-size:11px}
+  #ph .ph-record-actions .ph-record-open{font-size:11px}
 }
