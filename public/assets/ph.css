@@ -38,8 +38,8 @@ html[data-ghf-mode=night]{--ph-bg:#0b0c0b;--ph-ink:#e8ece9;--ph-muted:#a3ada8;--
 #ph .ph-now{position:absolute;right:8px;top:6px;font:700 13px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--ph-ink);opacity:.75;pointer-events:none;
  background:color-mix(in srgb,var(--ph-bg) 75%,transparent);padding:3px 5px;border-radius:4px}
 #ph .ph-label{position:absolute;bottom:74px;left:50%;max-width:min(92%,420px);padding:6px 10px;border-radius:8px;background:var(--ph-ctl);color:var(--ph-ctl-ink);
- font:600 13px/1.25 system-ui,sans-serif;box-shadow:0 3px 14px rgba(0,0,0,.3);opacity:0;transform:translate(-50%,6px);transition:opacity .35s,transform .35s;pointer-events:auto;white-space:normal;text-align:center;z-index:4}
-#ph .ph-label.on{opacity:1;transform:translate(-50%,0)}
+ font:600 13px/1.25 system-ui,sans-serif;box-shadow:0 3px 14px rgba(0,0,0,.3);opacity:0;transform:translate(-50%,6px);transition:opacity .35s,transform .35s;pointer-events:none;white-space:normal;text-align:center;z-index:4}
+#ph .ph-label.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #ph .ph-label b{font:700 11px/1 ui-monospace,Menlo,monospace;opacity:.8;margin-right:.4em}
 #ph .ph-ctl{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:5}
 #ph .ph-play{width:52px;height:52px;border-radius:50%;border:0;background:var(--ph-ctl);color:var(--ph-ctl-ink);box-shadow:0 4px 16px rgba(0,0,0,.35);cursor:pointer;display:grid;place-items:center;padding:0;opacity:.92}
