@@ -205,7 +205,7 @@
     recordTitle.textContent = 'Catalogue record';
     recordIdEl.textContent = id;
     recordFrame.title = 'Catalogue record ' + id;
-    recordFull.href = url;
+    recordFull.dataset.url = url;
     recordFrame.src = url;
     if (recordDlg.showModal) recordDlg.showModal();
     else recordDlg.setAttribute('open', '');
@@ -218,6 +218,10 @@
       if (recordFocus && recordFocus.isConnected) recordFocus.focus();
     }
   }
+  recordFull.addEventListener('click', function () {
+    var url = recordFull.dataset.url;
+    if (url) window.open(url, '_blank', 'noopener,noreferrer');
+  });
   $('ph-record-x').addEventListener('click', closeRecord);
   recordDlg.addEventListener('click', function (ev) {
     if (ev.target === recordDlg) closeRecord();
