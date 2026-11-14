@@ -1,4 +1,4 @@
-/* Piano Hero 0.4.0 — every party a key (each with an (i) info button along the top of the keyboard): the quietest parties on the left half, the busiest from just above middle C (F4) outwards to the top; each label sums up the event on its date with the record's picture, the party's badge and #hashtag; a backing loop (mallets, guitar, voices) keeps the metronome. Cedwyn Estate webapp. — Sion's Tab agent */
+/* Piano Hero 0.5.0 — every party a key (each with an (i) info button along the top of the keyboard): the quietest parties on the left half, the busiest from just above middle C (F4) outwards to the top; each label sums up the event on its date with the record's picture, the party's badge and #hashtag; a backing loop (mallets, guitar, voices) keeps the metronome. Cedwyn Estate webapp. — Sion's Tab agent */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -71,7 +71,34 @@
   }
 
   /* ---------- label and lights ---------- */
-  var labTimer = 0;
+  var labTimer = 0, labUntil = 0, labRemaining = 0, labPaused = false;
+  function clearLabelTimer() {
+    if (labTimer) clearTimeout(labTimer);
+    labTimer = 0;
+    labUntil = 0;
+  }
+  function scheduleLabelHide(ms) {
+    clearLabelTimer();
+    labRemaining = Math.max(0, ms || 0);
+    if (!labRemaining || labPaused) return;
+    labUntil = Date.now() + labRemaining;
+    labTimer = setTimeout(function () {
+      labTimer = 0; labUntil = 0; labRemaining = 0;
+      if (!labPaused) lab.classList.remove('on');
+    }, labRemaining);
+  }
+  function holdLabel() {
+    if (labPaused) return;
+    if (labTimer) labRemaining = Math.max(0, labUntil - Date.now());
+    clearLabelTimer();
+    labPaused = true;
+  }
+  function resumeLabel() {
+    if (!labPaused) return;
+    labPaused = false;
+    if (lab.classList.contains('on') && labRemaining > 0) scheduleLabelHide(labRemaining);
+    else labRemaining = 0;
+  }
   var TH = {};   /* 0.4.0: catalogue pictures as small same-site thumbnails (data/thumbs.json), keyed by catalogue ID */
   var ICON = {   /* the catalogue's own placeholder for a record with no picture: an icon for its kind, and its ID */
     email: '<path d="M3 6h18v12H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.8"/>',
@@ -122,7 +149,14 @@
   }
   function card(o, rowLbl) {   // one event: picture, then the event summed up (date first), then the party's badge and #hashtag
     var inst = D.institutions[o.i], ref = o.refs && o.refs[0], rec = ref ? (D.records || {})[ref] : null;
-    var c = document.createElement('span'); c.className = 'ph-card'; c.appendChild(tile(ref, rec));
+    var c = document.createElement(ref ? 'button' : 'span');
+    c.className = 'ph-card';
+    if (ref) {
+      c.type = 'button';
+      c.dataset.recordId = ref;
+      c.setAttribute('aria-label', 'Open catalogue record ' + ref);
+    }
+    c.appendChild(tile(ref, rec));
     var tx = document.createElement('span'); tx.className = 'ph-lt'; c.appendChild(tx);
     var ev = document.createElement('span'); ev.className = 'ph-ev';
     var dt = document.createElement('b'); dt.textContent = (rec && rec.d) || rowLbl; ev.appendChild(dt);
@@ -157,8 +191,51 @@
       var sm = document.createElement('small'); sm.textContent = inst.events + ' active days'; sm.style.opacity = '.75'; lab.appendChild(sm);
       lab.classList.remove('thumb'); lab.classList.remove('one'); place(i);
     }
-    clearTimeout(labTimer); labTimer = setTimeout(function () { lab.classList.remove('on'); }, notes ? 2400 : 1500);
+    scheduleLabelHide(notes ? 2400 : 1500);
   }
+  /* Each timeline card opens its canonical, full catalogue entry in a contained modal. */
+  var recordDlg = $('ph-record'), recordFrame = $('ph-record-frame'),
+      recordFull = $('ph-record-full'), recordIdEl = $('ph-record-id'),
+      recordTitle = $('ph-record-title'), recordFocus = null;
+  function openRecord(id, trigger) {
+    id = String(id || '').trim().toUpperCase();
+    if (!id || !recordDlg || !recordFrame) return;
+    recordFocus = trigger || document.activeElement;
+    var url = '/catalogue/?id=' + encodeURIComponent(id);
+    recordTitle.textContent = 'Catalogue record';
+    recordIdEl.textContent = id;
+    recordFrame.title = 'Catalogue record ' + id;
+    recordFull.dataset.url = url;
+    recordFrame.src = url;
+    if (recordDlg.showModal) recordDlg.showModal();
+    else recordDlg.setAttribute('open', '');
+  }
+  function closeRecord() {
+    if (recordDlg.close) recordDlg.close();
+    else {
+      recordDlg.removeAttribute('open');
+      recordFrame.removeAttribute('src');
+      if (recordFocus && recordFocus.isConnected) recordFocus.focus();
+    }
+  }
+  recordFull.addEventListener('click', function () {
+    var url = recordFull.dataset.url;
+    if (url) window.open(url, '_blank', 'noopener,noreferrer');
+  });
+  $('ph-record-x').addEventListener('click', closeRecord);
+  recordDlg.addEventListener('click', function (ev) {
+    if (ev.target === recordDlg) closeRecord();
+  });
+  recordDlg.addEventListener('close', function () {
+    recordFrame.removeAttribute('src');
+    if (recordFocus && recordFocus.isConnected) recordFocus.focus();
+  });
+  lab.addEventListener('click', function (ev) {
+    var chosen = ev.target.closest && ev.target.closest('.ph-card[data-record-id]');
+    if (!chosen || !lab.contains(chosen)) return;
+    openRecord(chosen.dataset.recordId, chosen);
+  });
+
   function light(i, ms) {
     var e = keyEls[i], c = colEls[i]; if (!e) return;
     e.classList.add('lit'); c.classList.add('lit');
@@ -433,20 +510,21 @@
     raf = requestAnimationFrame(step);
   }
   function start() {
+    resumeLabel();
     audio(); var r = rowsPassed(); if (r >= Q - 0.01) { r = 0; } if (window.innerWidth > window.innerHeight) fitPage(true);
     clock = tAt(r); lastR = rAt(clock); setR(lastR);
     playing = true; lastT = 0; btnPlay.setAttribute('aria-pressed', 'true'); btnPlay.setAttribute('aria-label', 'Pause'); btnX2.hidden = false;
     try { if (screen.orientation && screen.orientation.lock && document.fullscreenElement) screen.orientation.lock('landscape').catch(function () {}); } catch (e) {}
     raf = requestAnimationFrame(step); bkStart();
   }
-  function stop() { playing = false; cancelAnimationFrame(raf); bkStop(); btnPlay.setAttribute('aria-pressed', 'false'); btnPlay.setAttribute('aria-label', 'Play'); btnX2.hidden = true; }
-  btnPlay.addEventListener('click', function () { playing ? stop() : start(); });
+  function stop(holdVisibleLabel) { playing = false; cancelAnimationFrame(raf); if (holdVisibleLabel) holdLabel(); bkStop(); btnPlay.setAttribute('aria-pressed', 'false'); btnPlay.setAttribute('aria-label', 'Play'); btnX2.hidden = true; }
+  btnPlay.addEventListener('click', function () { playing ? stop(true) : start(); });
   btnX2.addEventListener('click', function () { dbl = !dbl; BK.sync = null; BK.nextB = null; btnX2.setAttribute('aria-pressed', String(dbl)); btnX2.setAttribute('aria-label', dbl ? 'Normal speed' : 'Double speed'); });
   scroll.addEventListener('scroll', onScroll, { passive: true });
   (function () { var bb = $('ph-bk'), bs = $('ph-bkv'); if (!bb || !bs) return; bkSet();
     bb.addEventListener('click', function () { bkSet(!BK.on); if (BK.on && playing && !BK.timer) bkStart(); });
     bs.addEventListener('input', function () { var v = (+bs.value || 0) / 100; bkSet(v > 0 ? true : BK.on, v); }); })();
-  ['wheel', 'touchstart'].forEach(function (ev) { scroll.addEventListener(ev, function () { if (playing) stop(); }, { passive: true }); });
+  ['wheel', 'touchstart'].forEach(function (ev) { scroll.addEventListener(ev, function () { if (playing) stop(true); }, { passive: true }); });
 
   /* ---------- keys: pointer, touch (glide across keys) and keyboard ---------- */
   var down = null;
@@ -532,7 +610,7 @@
   fetch('data/activity.json?v=0.4.0').then(function (r) { return r.json(); }).then(function (j) {
     D = j; build(); [300, 1000, 2500].forEach(function (ms) { setTimeout(function () { layout(false); }, ms); });
     fetch('data/thumbs.json?v=0.4.0').then(function (r) { return r.ok ? r.json() : {}; }).then(function (t) { TH = (t && t.thumbs) || {}; window.PianoHero.thumbs = Object.keys(TH).length; }).catch(function () {});
-    window.PianoHero = { version: '0.4.0', info: openInfo, closeInfo: closeInfo, press: press, play: start, pause: stop, data: D, filter: setFilter, segments: function () { return segs; }, beat: BEAT, cap: CAP, rowsPassed: rowsPassed, fire: fire,
+    window.PianoHero = { version: '0.5.0', info: openInfo, closeInfo: closeInfo, press: press, play: start, pause: function () { stop(true); }, openRecord: openRecord, data: D, filter: setFilter, segments: function () { return segs; }, beat: BEAT, cap: CAP, rowsPassed: rowsPassed, fire: fire,
       backing: function () { return { on: BK.on, vol: BK.vol, level: BK.bus ? BK.bus.gain.value : null, running: !!BK.timer, beats: BK.beats, ctx: AC ? AC.state : 'none', sampleRate: AC ? AC.sampleRate : 0, cachedStrings: Object.keys(BK.ksCache).length }; },
       setBacking: bkSet, hashtag: hashtag, initials: initials, seek: function (r) { setR(r); onScroll(); } };
   }).catch(function () { $('ph-sub').textContent = 'The activity data did not load. Please reload the page.'; });
