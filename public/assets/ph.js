@@ -1,4 +1,4 @@
-/* Piano Hero 0.7.4 — sounding institution keys expand within a fixed-width rail. */
+/* Piano Hero 0.7.5 — sounding keys keep a fixed rail width with clearer active labels. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -141,8 +141,8 @@
     } else {
       // Give sounding keys roughly twice their normal height. At the 48-key
       // October 2026 peak, cap this by the space left after compact silent lanes.
-      var idleFloor = Math.min(2.35, Math.max(0.7, ROW_H * 0.38));
-      var activeGoal = Math.min(16, Math.max(8.4, ROW_H * 2));
+      var idleFloor = Math.min(1.7, Math.max(0.65, ROW_H * 0.30));
+      var activeGoal = Math.min(18, Math.max(9, ROW_H * 2.2));
       var activeMax = (usable - (N - activeCount) * idleFloor) / activeCount;
       var activeHeight = Math.max(0.7, Math.min(activeGoal, activeMax));
       var idleHeight = (usable - activeCount * activeHeight) / (N - activeCount);
@@ -850,7 +850,7 @@
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.7.4',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.5',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
