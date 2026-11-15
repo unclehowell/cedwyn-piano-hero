@@ -1,0 +1,1636 @@
+{
+  "schema": "piano-hero-forensic-links/1.0.0",
+  "generated": "2026-11-15",
+  "source": {
+    "repository": "unclehowell/cedwyn-forensic",
+    "path": "data.json",
+    "updated": "2026-11-13",
+    "assessed_reports": 64
+  },
+  "note": "Direct associations use exact institution names or explicit canonical aliases. Related associations are separately labelled and are not claims of identical legal identity. Citation IDs below are record identifiers explicitly named in the corresponding published assessment page text; connectors are drawn only where that record also has a Piano Hero timeline marker.",
+  "assessments": [
+    {
+      "id": "FA-0001",
+      "slug": "vale-of-glamorgan-council",
+      "name": "Vale of Glamorgan Council",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 17 October 2026 the material reviewed does not establish Council-wide wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/vale-of-glamorgan-council/",
+      "citation_ids": [
+        "EV-0038",
+        "EV-0037",
+        "EV-0232"
+      ]
+    },
+    {
+      "id": "FA-0002",
+      "slug": "western-ground-rents",
+      "name": "Western Ground Rents Ltd",
+      "version": "1.1.0",
+      "status": "Enquiries go to other bodies (company records)",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish dishonesty or misconduct by WGR.",
+      "published": "2026-10-21",
+      "url": "/forensic/western-ground-rents/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0003",
+      "slug": "south-wales-police",
+      "name": "South Wales Police",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish policing misconduct.",
+      "published": "2026-10-20",
+      "url": "/forensic/south-wales-police/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0004",
+      "slug": "mountjoy-ltd",
+      "name": "Mountjoy Ltd",
+      "version": "1.1.0",
+      "status": "Enquiries go to other bodies (company records)",
+      "verdict": "As at 14 October 2026, nothing reviewed establishes wrongdoing by Mountjoy Ltd.",
+      "published": "2026-10-21",
+      "url": "/forensic/mountjoy-ltd/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0005",
+      "slug": "national-library-of-wales",
+      "name": "National Library of Wales",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the National Library of Wales.",
+      "published": "2026-10-20",
+      "url": "/forensic/national-library-of-wales/",
+      "citation_ids": [
+        "EV-0211",
+        "EV-0228",
+        "EV-0233"
+      ]
+    },
+    {
+      "id": "FA-0006",
+      "slug": "glamorgan-archives",
+      "name": "Glamorgan Archives",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish archival misconduct.",
+      "published": "2026-10-18",
+      "url": "/forensic/glamorgan-archives/",
+      "citation_ids": [
+        "EV-0213",
+        "EV-0234",
+        "EV-0211",
+        "EV-0228",
+        "EV-0233"
+      ]
+    },
+    {
+      "id": "FA-0007",
+      "slug": "llandough-community-council",
+      "name": "Llandough Community Council",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "No adverse institutional finding is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/llandough-community-council/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0008",
+      "slug": "national-archives",
+      "name": "The National Archives",
+      "version": "1.3.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by The National Archives.",
+      "published": "2026-10-18",
+      "url": "/forensic/national-archives/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0009",
+      "slug": "amgueddfa-cymru-museum-wales",
+      "name": "Amgueddfa Cymru — Museum Wales",
+      "version": "0.2.0",
+      "status": "Asked for clarification or fee",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish institution-specific wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/amgueddfa-cymru-museum-wales/",
+      "citation_ids": [
+        "EV-0190"
+      ]
+    },
+    {
+      "id": "FA-0010",
+      "slug": "bp-properties-bp-pension-trust",
+      "name": "BP Properties Ltd and BP Pension Trust",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish dishonesty or misconduct by either BP entity.",
+      "published": "2026-10-21",
+      "url": "/forensic/bp-properties-bp-pension-trust/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0011",
+      "slug": "heneb",
+      "name": "Heneb",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "The surviving material currently identified does not establish what the Commission received or that it would have reached a different decision.",
+      "published": "2026-10-18",
+      "url": "/forensic/heneb/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0012",
+      "slug": "ico",
+      "name": "Information Commissioner’s Office (ICO)",
+      "version": "1.1.0",
+      "status": "Redirected",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the ICO.",
+      "published": "2026-10-21",
+      "url": "/forensic/ico/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0013",
+      "slug": "rcahmw",
+      "name": "RCAHMW",
+      "version": "1.1.0",
+      "status": "Disclosing",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by RCAHMW.",
+      "published": "2026-10-18",
+      "url": "/forensic/rcahmw/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0014",
+      "slug": "welsh-government",
+      "name": "Welsh Government",
+      "version": "1.1.0",
+      "status": "Disclosing",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish Welsh Government-wide wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/welsh-government/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0015",
+      "slug": "bute-estate",
+      "name": "Bute Estate",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the Bute Estate.",
+      "published": "2026-10-21",
+      "url": "/forensic/bute-estate/",
+      "citation_ids": [
+        "EV-0236",
+        "EV-0211"
+      ]
+    },
+    {
+      "id": "FA-0016",
+      "slug": "companies-house",
+      "name": "Companies House",
+      "version": "0.2.0",
+      "status": "Asked for clarification or fee",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Companies House.",
+      "published": "2026-10-18",
+      "url": "/forensic/companies-house/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0017",
+      "slug": "cardiff-city-council",
+      "name": "Cardiff City Council",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/cardiff-city-council/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0018",
+      "slug": "ministry-of-justice",
+      "name": "Ministry of Justice",
+      "version": "1.1.0",
+      "status": "Asked for clarification or fee",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Ministry of Justice.",
+      "published": "2026-10-18",
+      "url": "/forensic/ministry-of-justice/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0019",
+      "slug": "archaeology-data-service",
+      "name": "Archaeology Data Service",
+      "version": "0.2.0",
+      "status": "Disclosing",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Archaeology Data Service.",
+      "published": "2026-10-18",
+      "url": "/forensic/archaeology-data-service/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0020",
+      "slug": "blake-morgan",
+      "name": "Blake Morgan",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 14 October 2026, no reply from the firm is recorded in the reply register and nothing establishes wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/blake-morgan/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0021",
+      "slug": "cadw",
+      "name": "Cadw",
+      "version": "0.2.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "The evidence page states a copy was served on Cadw in September 2026; that does not establish Cadw received or considered it in 1982.",
+      "published": "2026-10-18",
+      "url": "/forensic/cadw/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0022",
+      "slug": "crown-prosecution-service",
+      "name": "Crown Prosecution Service",
+      "version": "0.2.0",
+      "status": "Redirected",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish CPS misconduct or a criminal-law failure.",
+      "published": "2026-10-18",
+      "url": "/forensic/crown-prosecution-service/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0023",
+      "slug": "dcms",
+      "name": "Department for Culture, Media and Sport (DCMS)",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by DCMS.",
+      "published": "2026-10-21",
+      "url": "/forensic/dcms/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0024",
+      "slug": "hm-land-registry",
+      "name": "HM Land Registry",
+      "version": "1.1.0",
+      "status": "Redirected",
+      "verdict": "the material reviewed has not established dishonesty, concealment or government involvement.",
+      "published": "2026-10-30",
+      "url": "/forensic/hm-land-registry/",
+      "citation_ids": [
+        "EV-0901"
+      ]
+    },
+    {
+      "id": "FA-0025",
+      "slug": "itv-cymru-wales",
+      "name": "ITV Cymru Wales (formerly HTV Wales)",
+      "version": "1.2.0",
+      "status": "Asked for clarification or fee",
+      "verdict": "No wrongdoing by ITV is established.",
+      "published": "2026-10-20",
+      "url": "/forensic/itv-cymru-wales/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0026",
+      "slug": "office-of-stephen-doughty-mp",
+      "name": "Office of Stephen Doughty MP",
+      "version": "1.1.0",
+      "status": "Disclosing",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the office.",
+      "published": "2026-10-21",
+      "url": "/forensic/office-of-stephen-doughty-mp/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0027",
+      "slug": "persimmon",
+      "name": "Persimmon",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 14 October 2026, nothing reviewed establishes wrongdoing by Persimmon.",
+      "published": "2026-10-21",
+      "url": "/forensic/persimmon/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0028",
+      "slug": "forest-of-cardiff",
+      "name": "Forest of Cardiff",
+      "version": "0.2.0",
+      "status": "Not held / refused",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Forest of Cardiff.",
+      "published": "2026-10-18",
+      "url": "/forensic/forest-of-cardiff/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0029",
+      "slug": "hmlr-independent-complaints-reviewer",
+      "name": "HMLR Independent Complaints Reviewer",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 10-10-2026, no wrongdoing by the Independent Complaints Reviewer is suggested or established in the material reviewed.",
+      "published": "2026-10-18",
+      "url": "/forensic/hmlr-independent-complaints-reviewer/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0030",
+      "slug": "ministry-of-defence",
+      "name": "Ministry of Defence",
+      "version": "1.1.0",
+      "status": "Redirected",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish Ministry of Defence wrongdoing or an operative role in the historic events.",
+      "published": "2026-10-18",
+      "url": "/forensic/ministry-of-defence/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0031",
+      "slug": "cotswold-archaeological-trust",
+      "name": "Cotswold Archaeological Trust",
+      "version": "0.2.0",
+      "status": "Redirected",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish personal or institutional negligence or dishonesty.",
+      "published": "2026-10-18",
+      "url": "/forensic/cotswold-archaeological-trust/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0032",
+      "slug": "darwin-gray",
+      "name": "Darwin Gray",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 14 October 2026, no reply from the firm is recorded in the reply register and nothing establishes wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/darwin-gray/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0033",
+      "slug": "dwr-cymru-welsh-water",
+      "name": "Dŵr Cymru Welsh Water",
+      "version": "1.1.0",
+      "status": "Not held / refused",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by Dŵr Cymru Welsh Water.",
+      "published": "2026-10-21",
+      "url": "/forensic/dwr-cymru-welsh-water/",
+      "citation_ids": [
+        "EV-0236",
+        "EV-0190"
+      ]
+    },
+    {
+      "id": "FA-0034",
+      "slug": "hmcts",
+      "name": "HM Courts & Tribunals Service",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish misconduct by HMCTS.",
+      "published": "2026-10-18",
+      "url": "/forensic/hmcts/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0035",
+      "slug": "linklaters",
+      "name": "Linklaters",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish dishonesty or professional misconduct by the firm.",
+      "published": "2026-10-18",
+      "url": "/forensic/linklaters/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0036",
+      "slug": "warwick-modern-records-centre",
+      "name": "Warwick Modern Records Centre",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish archive wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/warwick-modern-records-centre/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0037",
+      "slug": "welsh-office-wales-office",
+      "name": "Welsh Office / Wales Office",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Wales Office.",
+      "published": "2026-10-18",
+      "url": "/forensic/welsh-office-wales-office/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0038",
+      "slug": "barry-preservation-society-civic-trust",
+      "name": "Barry Preservation Society and Civic Trust",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "No adverse institutional finding is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/barry-preservation-society-civic-trust/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0039",
+      "slug": "bbc-cymru-wales",
+      "name": "BBC Cymru Wales",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, no BBC response is recorded and no wrongdoing is established.",
+      "published": "2026-10-21",
+      "url": "/forensic/bbc-cymru-wales/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0040",
+      "slug": "bp-archive",
+      "name": "BP Archive",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, no reply from the BP Archive is recorded in the reply register and nothing establishes wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/bp-archive/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0041",
+      "slug": "cardiff-county-court",
+      "name": "Cardiff County Court",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in the proceedings reviewed.",
+      "published": "2026-10-18",
+      "url": "/forensic/cardiff-county-court/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0042",
+      "slug": "cardiff-registration-service",
+      "name": "Cardiff Registration Service",
+      "version": "0.2.0",
+      "status": "Redirected",
+      "verdict": "No adverse finding is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/cardiff-registration-service/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0043",
+      "slug": "court-of-appeal",
+      "name": "Court of Appeal",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in relation to the proceedings reviewed.",
+      "published": "2026-10-18",
+      "url": "/forensic/court-of-appeal/",
+      "citation_ids": [
+        "EV-0080",
+        "EV-0078",
+        "EV-0032"
+      ]
+    },
+    {
+      "id": "FA-0044",
+      "slug": "debenham-tewson",
+      "name": "Debenham Tewson",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the actor under review.",
+      "published": "2026-10-18",
+      "url": "/forensic/debenham-tewson/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0045",
+      "slug": "european-commission-human-rights-strasbourg",
+      "name": "European Commission of Human Rights / Strasbourg",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish misconduct by the Commission.",
+      "published": "2026-10-18",
+      "url": "/forensic/european-commission-human-rights-strasbourg/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0046",
+      "slug": "european-court-human-rights-echr-archives",
+      "name": "European Court of Human Rights / ECHR Archives",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish archival wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/european-court-human-rights-echr-archives/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0047",
+      "slug": "ggat",
+      "name": "GGAT",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "A placeholder records an evidence gap; it does not establish the letter’s contents or misconduct.",
+      "published": "2026-10-18",
+      "url": "/forensic/ggat/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0048",
+      "slug": "glamorgan-county-council",
+      "name": "Glamorgan County Council",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+      "published": "2026-10-24",
+      "url": "/forensic/glamorgan-county-council/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0049",
+      "slug": "goldsworthy-homes",
+      "name": "Goldsworthy Homes",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Goldsworthy Homes.",
+      "published": "2026-10-18",
+      "url": "/forensic/goldsworthy-homes/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0050",
+      "slug": "high-court",
+      "name": "High Court",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in relation to the proceedings reviewed.",
+      "published": "2026-10-18",
+      "url": "/forensic/high-court/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0051",
+      "slug": "home-office",
+      "name": "Home Office",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish Home Office wrongdoing or an operative role in the historic events.",
+      "published": "2026-10-18",
+      "url": "/forensic/home-office/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0052",
+      "slug": "house-of-lords",
+      "name": "House of Lords",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish institutional wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/house-of-lords/",
+      "citation_ids": [
+        "EV-0080"
+      ]
+    },
+    {
+      "id": "FA-0053",
+      "slug": "ideal-homes-wales",
+      "name": "Ideal Homes Wales",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Ideal Homes Wales.",
+      "published": "2026-10-18",
+      "url": "/forensic/ideal-homes-wales/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0054",
+      "slug": "lakeside-and-llandough-development-company",
+      "name": "Lakeside and Llandough Development Company Ltd",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the company.",
+      "published": "2026-10-21",
+      "url": "/forensic/lakeside-and-llandough-development-company/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0055",
+      "slug": "landmark-chambers",
+      "name": "Landmark Chambers",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish historic involvement or wrongdoing by this actor.",
+      "published": "2026-10-18",
+      "url": "/forensic/landmark-chambers/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0056",
+      "slug": "media-wales-reach-plc",
+      "name": "Media Wales / Reach plc (South Wales Echo, Western Mail)",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the publisher.",
+      "published": "2026-10-21",
+      "url": "/forensic/media-wales-reach-plc/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0057",
+      "slug": "npcc",
+      "name": "National Police Chiefs’ Council (NPCC)",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "The NPCC’s present-day searches and decisions are now documented by primary-source links.",
+      "published": "2026-10-18",
+      "url": "/forensic/npcc/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0058",
+      "slug": "nctso",
+      "name": "NCTSO",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "No NCTSO wrongdoing or operative historical role is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/nctso/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0059",
+      "slug": "parliamentary-archives",
+      "name": "Parliamentary Archives",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, no reply from the Parliamentary Archives is recorded in the reply register and nothing establishes wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/parliamentary-archives/",
+      "citation_ids": [
+        "EV-0235"
+      ]
+    },
+    {
+      "id": "FA-0060",
+      "slug": "post-office-limited",
+      "name": "Post Office Limited",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/post-office-limited/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0061",
+      "slug": "royal-mail-group",
+      "name": "Royal Mail Group",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/royal-mail-group/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0062",
+      "slug": "senedd-culture-committee",
+      "name": "Senedd Culture Committee",
+      "version": "1.1.0",
+      "status": "Replied, nothing disclosed",
+      "verdict": "No historic committee responsibility is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/senedd-culture-committee/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0063",
+      "slug": "south-western-brick-and-tile",
+      "name": "South Western Brick & Tile Company",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the company.",
+      "published": "2026-10-21",
+      "url": "/forensic/south-western-brick-and-tile/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0064",
+      "slug": "wales-and-west-housing-association",
+      "name": "Wales & West Housing Association",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the association.",
+      "published": "2026-10-21",
+      "url": "/forensic/wales-and-west-housing-association/",
+      "citation_ids": []
+    }
+  ],
+  "institution_reports": {
+    "foc": [
+      {
+        "id": "FA-0028",
+        "slug": "forest-of-cardiff",
+        "name": "Forest of Cardiff",
+        "version": "0.2.0",
+        "status": "Not held / refused",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Forest of Cardiff.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "blake-morgan": [
+      {
+        "id": "FA-0020",
+        "slug": "blake-morgan",
+        "name": "Blake Morgan",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 14 October 2026, no reply from the firm is recorded in the reply register and nothing establishes wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "post-office": [
+      {
+        "id": "FA-0060",
+        "slug": "post-office-limited",
+        "name": "Post Office Limited",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "cardiff-council": [
+      {
+        "id": "FA-0017",
+        "slug": "cardiff-city-council",
+        "name": "Cardiff City Council",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+        "relationship": "related",
+        "relationship_note": "Cardiff City Council is the related city-council assessment",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "echr": [
+      {
+        "id": "FA-0045",
+        "slug": "european-commission-human-rights-strasbourg",
+        "name": "European Commission of Human Rights / Strasbourg",
+        "version": "0.2.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish misconduct by the Commission.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0046",
+        "slug": "european-court-human-rights-echr-archives",
+        "name": "European Court of Human Rights / ECHR Archives",
+        "version": "0.2.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish archival wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "wgr": [
+      {
+        "id": "FA-0002",
+        "slug": "western-ground-rents",
+        "name": "Western Ground Rents Ltd",
+        "version": "1.1.0",
+        "status": "Enquiries go to other bodies (company records)",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish dishonesty or misconduct by WGR.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "darwin-gray": [
+      {
+        "id": "FA-0032",
+        "slug": "darwin-gray",
+        "name": "Darwin Gray",
+        "version": "1.1.0",
+        "status": "Awaiting first reply",
+        "verdict": "As at 14 October 2026, no reply from the firm is recorded in the reply register and nothing establishes wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "wg": [
+      {
+        "id": "FA-0014",
+        "slug": "welsh-government",
+        "name": "Welsh Government",
+        "version": "1.1.0",
+        "status": "Disclosing",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish Welsh Government-wide wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "persimmon": [
+      {
+        "id": "FA-0027",
+        "slug": "persimmon",
+        "name": "Persimmon",
+        "version": "1.1.0",
+        "status": "Awaiting first reply",
+        "verdict": "As at 14 October 2026, nothing reviewed establishes wrongdoing by Persimmon.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "ads": [
+      {
+        "id": "FA-0019",
+        "slug": "archaeology-data-service",
+        "name": "Archaeology Data Service",
+        "version": "0.2.0",
+        "status": "Disclosing",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Archaeology Data Service.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "wales-office": [
+      {
+        "id": "FA-0037",
+        "slug": "welsh-office-wales-office",
+        "name": "Welsh Office / Wales Office",
+        "version": "1.1.0",
+        "status": "Awaiting first reply",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Wales Office.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "npcc": [
+      {
+        "id": "FA-0057",
+        "slug": "npcc",
+        "name": "National Police Chiefs’ Council (NPCC)",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "The NPCC’s present-day searches and decisions are now documented by primary-source links.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "register-office": [
+      {
+        "id": "FA-0042",
+        "slug": "cardiff-registration-service",
+        "name": "Cardiff Registration Service",
+        "version": "0.2.0",
+        "status": "Redirected",
+        "verdict": "No adverse finding is established.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "linklaters": [
+      {
+        "id": "FA-0035",
+        "slug": "linklaters",
+        "name": "Linklaters",
+        "version": "1.1.0",
+        "status": "Awaiting first reply",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish dishonesty or professional misconduct by the firm.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "glam-arch": [
+      {
+        "id": "FA-0006",
+        "slug": "glamorgan-archives",
+        "name": "Glamorgan Archives",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish archival misconduct.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": [
+          "EV-0213",
+          "EV-0234",
+          "EV-0211",
+          "EV-0228",
+          "EV-0233"
+        ]
+      }
+    ],
+    "tna": [
+      {
+        "id": "FA-0008",
+        "slug": "national-archives",
+        "name": "The National Archives",
+        "version": "1.3.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by The National Archives.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "hmlr": [
+      {
+        "id": "FA-0024",
+        "slug": "hm-land-registry",
+        "name": "HM Land Registry",
+        "version": "1.1.0",
+        "status": "Redirected",
+        "verdict": "the material reviewed has not established dishonesty, concealment or government involvement.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-30",
+        "citation_ids": [
+          "EV-0901"
+        ]
+      },
+      {
+        "id": "FA-0029",
+        "slug": "hmlr-independent-complaints-reviewer",
+        "name": "HMLR Independent Complaints Reviewer",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 10-10-2026, no wrongdoing by the Independent Complaints Reviewer is suggested or established in the material reviewed.",
+        "relationship": "related",
+        "relationship_note": "Independent complaints reviewer associated with HM Land Registry",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "vog": [
+      {
+        "id": "FA-0001",
+        "slug": "vale-of-glamorgan-council",
+        "name": "Vale of Glamorgan Council",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 17 October 2026 the material reviewed does not establish Council-wide wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": [
+          "EV-0038",
+          "EV-0037",
+          "EV-0232"
+        ]
+      },
+      {
+        "id": "FA-0048",
+        "slug": "glamorgan-county-council",
+        "name": "Glamorgan County Council",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+        "relationship": "related",
+        "relationship_note": "Historic county council predecessor; not the same authority as the Vale of Glamorgan Council",
+        "published": "2026-10-24",
+        "citation_ids": []
+      }
+    ],
+    "hmcts": [
+      {
+        "id": "FA-0034",
+        "slug": "hmcts",
+        "name": "HM Courts & Tribunals Service",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish misconduct by HMCTS.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0018",
+        "slug": "ministry-of-justice",
+        "name": "Ministry of Justice",
+        "version": "1.1.0",
+        "status": "Asked for clarification or fee",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the Ministry of Justice.",
+        "relationship": "related",
+        "relationship_note": "Parent department / HMCTS portfolio",
+        "published": "2026-10-18",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0041",
+        "slug": "cardiff-county-court",
+        "name": "Cardiff County Court",
+        "version": "0.2.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in the proceedings reviewed.",
+        "relationship": "related",
+        "relationship_note": "Court within the HMCTS system",
+        "published": "2026-10-18",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0043",
+        "slug": "court-of-appeal",
+        "name": "Court of Appeal",
+        "version": "0.2.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in relation to the proceedings reviewed.",
+        "relationship": "related",
+        "relationship_note": "Court within the HMCTS system",
+        "published": "2026-10-18",
+        "citation_ids": [
+          "EV-0080",
+          "EV-0078",
+          "EV-0032"
+        ]
+      },
+      {
+        "id": "FA-0050",
+        "slug": "high-court",
+        "name": "High Court",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish judicial wrongdoing in relation to the proceedings reviewed.",
+        "relationship": "related",
+        "relationship_note": "Court within the HMCTS system",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "nlw": [
+      {
+        "id": "FA-0005",
+        "slug": "national-library-of-wales",
+        "name": "National Library of Wales",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the National Library of Wales.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-20",
+        "citation_ids": [
+          "EV-0211",
+          "EV-0228",
+          "EV-0233"
+        ]
+      }
+    ],
+    "cadw": [
+      {
+        "id": "FA-0021",
+        "slug": "cadw",
+        "name": "Cadw",
+        "version": "0.2.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "The evidence page states a copy was served on Cadw in September 2026; that does not establish Cadw received or considered it in 1982.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "press": [
+      {
+        "id": "FA-0056",
+        "slug": "media-wales-reach-plc",
+        "name": "Media Wales / Reach plc (South Wales Echo, Western Mail)",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the publisher.",
+        "relationship": "related",
+        "relationship_note": "Publisher-level report related to the newspapers and magazines lane",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "echo": [
+      {
+        "id": "FA-0056",
+        "slug": "media-wales-reach-plc",
+        "name": "Media Wales / Reach plc (South Wales Echo, Western Mail)",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the publisher.",
+        "relationship": "related",
+        "relationship_note": "Publisher-level report related to the South Wales Echo",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "rcahmw": [
+      {
+        "id": "FA-0013",
+        "slug": "rcahmw",
+        "name": "RCAHMW",
+        "version": "1.1.0",
+        "status": "Disclosing",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by RCAHMW.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "mp": [
+      {
+        "id": "FA-0026",
+        "slug": "office-of-stephen-doughty-mp",
+        "name": "Office of Stephen Doughty MP",
+        "version": "1.1.0",
+        "status": "Disclosing",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the office.",
+        "relationship": "related",
+        "relationship_note": "One MP office within the wider MP-office lane",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "museum": [
+      {
+        "id": "FA-0009",
+        "slug": "amgueddfa-cymru-museum-wales",
+        "name": "Amgueddfa Cymru — Museum Wales",
+        "version": "0.2.0",
+        "status": "Asked for clarification or fee",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish institution-specific wrongdoing.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": [
+          "EV-0190"
+        ]
+      }
+    ],
+    "heneb": [
+      {
+        "id": "FA-0011",
+        "slug": "heneb",
+        "name": "Heneb",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "The surviving material currently identified does not establish what the Commission received or that it would have reached a different decision.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0047",
+        "slug": "ggat",
+        "name": "GGAT",
+        "version": "0.2.0",
+        "status": "No contact on file",
+        "verdict": "A placeholder records an evidence gap; it does not establish the letter’s contents or misconduct.",
+        "relationship": "related",
+        "relationship_note": "GGAT is the predecessor archaeological trust named in the HER lane",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "swp": [
+      {
+        "id": "FA-0003",
+        "slug": "south-wales-police",
+        "name": "South Wales Police",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish policing misconduct.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-20",
+        "citation_ids": []
+      }
+    ],
+    "ch": [
+      {
+        "id": "FA-0016",
+        "slug": "companies-house",
+        "name": "Companies House",
+        "version": "0.2.0",
+        "status": "Asked for clarification or fee",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Companies House.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "lcc": [
+      {
+        "id": "FA-0007",
+        "slug": "llandough-community-council",
+        "name": "Llandough Community Council",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "No adverse institutional finding is established.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "parliament": [
+      {
+        "id": "FA-0052",
+        "slug": "house-of-lords",
+        "name": "House of Lords",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish institutional wrongdoing.",
+        "relationship": "related",
+        "relationship_note": "Parliamentary institution assessment within the broader Parliament lane",
+        "published": "2026-10-18",
+        "citation_ids": [
+          "EV-0080"
+        ]
+      },
+      {
+        "id": "FA-0059",
+        "slug": "parliamentary-archives",
+        "name": "Parliamentary Archives",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, no reply from the Parliamentary Archives is recorded in the reply register and nothing establishes wrongdoing.",
+        "relationship": "related",
+        "relationship_note": "Parliamentary archive assessment within the broader Parliament lane",
+        "published": "2026-10-21",
+        "citation_ids": [
+          "EV-0235"
+        ]
+      }
+    ],
+    "mod": [
+      {
+        "id": "FA-0030",
+        "slug": "ministry-of-defence",
+        "name": "Ministry of Defence",
+        "version": "1.1.0",
+        "status": "Redirected",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish Ministry of Defence wrongdoing or an operative role in the historic events.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "online": [
+      {
+        "id": "FA-0039",
+        "slug": "bbc-cymru-wales",
+        "name": "BBC Cymru Wales",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, no BBC response is recorded and no wrongdoing is established.",
+        "relationship": "related",
+        "relationship_note": "BBC Cymru Wales is a related media/web publisher, not the same as the general online-source category",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "nactso": [
+      {
+        "id": "FA-0058",
+        "slug": "nctso",
+        "name": "NCTSO",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "No NCTSO wrongdoing or operative historical role is established.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "bp": [
+      {
+        "id": "FA-0010",
+        "slug": "bp-properties-bp-pension-trust",
+        "name": "BP Properties Ltd and BP Pension Trust",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish dishonesty or misconduct by either BP entity.",
+        "relationship": "related",
+        "relationship_note": "BP corporate entities; related report, not a single legal identity",
+        "published": "2026-10-21",
+        "citation_ids": []
+      },
+      {
+        "id": "FA-0040",
+        "slug": "bp-archive",
+        "name": "BP Archive",
+        "version": "1.1.0",
+        "status": "No contact on file",
+        "verdict": "As at 14 October 2026, no reply from the BP Archive is recorded in the reply register and nothing establishes wrongdoing.",
+        "relationship": "related",
+        "relationship_note": "BP archive; related report, not a single legal identity",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "senedd": [
+      {
+        "id": "FA-0062",
+        "slug": "senedd-culture-committee",
+        "name": "Senedd Culture Committee",
+        "version": "1.1.0",
+        "status": "Replied, nothing disclosed",
+        "verdict": "No historic committee responsibility is established.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "dwr": [
+      {
+        "id": "FA-0033",
+        "slug": "dwr-cymru-welsh-water",
+        "name": "Dŵr Cymru Welsh Water",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by Dŵr Cymru Welsh Water.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": [
+          "EV-0236",
+          "EV-0190"
+        ]
+      }
+    ],
+    "cps": [
+      {
+        "id": "FA-0022",
+        "slug": "crown-prosecution-service",
+        "name": "Crown Prosecution Service",
+        "version": "0.2.0",
+        "status": "Redirected",
+        "verdict": "As at 10-10-2026, the material reviewed does not establish CPS misconduct or a criminal-law failure.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-18",
+        "citation_ids": []
+      }
+    ],
+    "itv": [
+      {
+        "id": "FA-0025",
+        "slug": "itv-cymru-wales",
+        "name": "ITV Cymru Wales (formerly HTV Wales)",
+        "version": "1.2.0",
+        "status": "Asked for clarification or fee",
+        "verdict": "No wrongdoing by ITV is established.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-20",
+        "citation_ids": []
+      }
+    ],
+    "bute": [
+      {
+        "id": "FA-0015",
+        "slug": "bute-estate",
+        "name": "Bute Estate",
+        "version": "1.1.0",
+        "status": "Awaiting first reply",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the Bute Estate.",
+        "relationship": "related",
+        "relationship_note": "Bute estate report associated with the Mount Stuart/Bute archive lane",
+        "published": "2026-10-21",
+        "citation_ids": [
+          "EV-0236",
+          "EV-0211"
+        ]
+      }
+    ],
+    "dcms": [
+      {
+        "id": "FA-0023",
+        "slug": "dcms",
+        "name": "Department for Culture, Media and Sport (DCMS)",
+        "version": "1.1.0",
+        "status": "Not held / refused",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by DCMS.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ],
+    "ico": [
+      {
+        "id": "FA-0012",
+        "slug": "ico",
+        "name": "Information Commissioner’s Office (ICO)",
+        "version": "1.1.0",
+        "status": "Redirected",
+        "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the ICO.",
+        "relationship": "direct",
+        "relationship_note": "Direct institution match or declared canonical alias.",
+        "published": "2026-10-21",
+        "citation_ids": []
+      }
+    ]
+  },
+  "unassigned_assessments": [
+    {
+      "id": "FA-0004",
+      "slug": "mountjoy-ltd",
+      "name": "Mountjoy Ltd",
+      "version": "1.1.0",
+      "status": "Enquiries go to other bodies (company records)",
+      "verdict": "As at 14 October 2026, nothing reviewed establishes wrongdoing by Mountjoy Ltd.",
+      "published": "2026-10-21",
+      "url": "/forensic/mountjoy-ltd/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0031",
+      "slug": "cotswold-archaeological-trust",
+      "name": "Cotswold Archaeological Trust",
+      "version": "0.2.0",
+      "status": "Redirected",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish personal or institutional negligence or dishonesty.",
+      "published": "2026-10-18",
+      "url": "/forensic/cotswold-archaeological-trust/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0036",
+      "slug": "warwick-modern-records-centre",
+      "name": "Warwick Modern Records Centre",
+      "version": "1.1.0",
+      "status": "Awaiting first reply",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish archive wrongdoing.",
+      "published": "2026-10-18",
+      "url": "/forensic/warwick-modern-records-centre/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0038",
+      "slug": "barry-preservation-society-civic-trust",
+      "name": "Barry Preservation Society and Civic Trust",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "No adverse institutional finding is established.",
+      "published": "2026-10-18",
+      "url": "/forensic/barry-preservation-society-civic-trust/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0044",
+      "slug": "debenham-tewson",
+      "name": "Debenham Tewson",
+      "version": "0.2.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by the actor under review.",
+      "published": "2026-10-18",
+      "url": "/forensic/debenham-tewson/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0049",
+      "slug": "goldsworthy-homes",
+      "name": "Goldsworthy Homes",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Goldsworthy Homes.",
+      "published": "2026-10-18",
+      "url": "/forensic/goldsworthy-homes/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0051",
+      "slug": "home-office",
+      "name": "Home Office",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish Home Office wrongdoing or an operative role in the historic events.",
+      "published": "2026-10-18",
+      "url": "/forensic/home-office/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0053",
+      "slug": "ideal-homes-wales",
+      "name": "Ideal Homes Wales",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish wrongdoing by Ideal Homes Wales.",
+      "published": "2026-10-18",
+      "url": "/forensic/ideal-homes-wales/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0054",
+      "slug": "lakeside-and-llandough-development-company",
+      "name": "Lakeside and Llandough Development Company Ltd",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the company.",
+      "published": "2026-10-21",
+      "url": "/forensic/lakeside-and-llandough-development-company/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0055",
+      "slug": "landmark-chambers",
+      "name": "Landmark Chambers",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 10-10-2026, the material reviewed does not establish historic involvement or wrongdoing by this actor.",
+      "published": "2026-10-18",
+      "url": "/forensic/landmark-chambers/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0061",
+      "slug": "royal-mail-group",
+      "name": "Royal Mail Group",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing.",
+      "published": "2026-10-21",
+      "url": "/forensic/royal-mail-group/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0063",
+      "slug": "south-western-brick-and-tile",
+      "name": "South Western Brick & Tile Company",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the company.",
+      "published": "2026-10-21",
+      "url": "/forensic/south-western-brick-and-tile/",
+      "citation_ids": []
+    },
+    {
+      "id": "FA-0064",
+      "slug": "wales-and-west-housing-association",
+      "name": "Wales & West Housing Association",
+      "version": "1.1.0",
+      "status": "No contact on file",
+      "verdict": "As at 14 October 2026, the material reviewed does not establish wrongdoing by the association.",
+      "published": "2026-10-21",
+      "url": "/forensic/wales-and-west-housing-association/",
+      "citation_ids": []
+    }
+  ]
+}
