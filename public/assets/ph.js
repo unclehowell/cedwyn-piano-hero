@@ -7,7 +7,11 @@
       bands = $('ph-lane-bands'), markers = $('ph-markers'), svg = $('ph-connectors'),
       laneScroll = $('ph-lane-scroll'), scoreViewport = $('ph-score-viewport'),
       nowEl = $('ph-now'), progress = $('ph-progress'), progressLabel = $('ph-progress-label'),
-      filterEl = $('ph-filter'), playBtn = $('ph-play'), playLabel = $('ph-play-label'),
+      filterEl = $('ph-filter'), playBtn = $('ph-play'), playLabel = $('ph-play-label'), nextBtn = $('ph-next'),
+      focusImage = $('ph-focus-image'), focusFallback = $('ph-focus-image-fallback'), focusYear = $('ph-focus-year'),
+      focusCount = $('ph-focus-count'), focusDate = $('ph-focus-date'), focusTitle = $('ph-focus-title'),
+      focusInstitution = $('ph-focus-institution'), focusMeta = $('ph-focus-meta'), focusSummary = $('ph-focus-summary'),
+      focusOpen = $('ph-focus-open'),
       x2Btn = $('ph-x2'), backingBtn = $('ph-backing'), backingVol = $('ph-volume'),
       eventLabel = $('ph-event-label'), detailDlg = $('ph-detail'),
       detailTitle = $('ph-detail-title'), detailSub = $('ph-detail-sub'),
@@ -25,7 +29,8 @@
       progressR = 0, labTimer = 0, labUntil = 0, labRemaining = 0, labPaused = false,
       AC = null, master = null, BK = { on: true, vol: 0.3, beat: 0 },
       focusBack = null, currentReport = null, currentInstitution = null, lastReportContext = null,
-      drag = null, built = false;
+      drag = null, built = false, C = {}, currentFocusItem = null, currentReview = null,
+      yearReviewStarted = Object.create(null), reviewTimer = 0, selectedEventEl = null;
 
   function hue(id) {
     var h = 0, s = String(id || '');
@@ -305,13 +310,199 @@
     b.addEventListener('click', function () { showEvent(o, b); });
     return b;
   }
+
+  function yearForRow(label) {
+    if (label === '1500s') return 1500;
+    var m = String(label || '').match(/^(\\d{4})/);
+    return m ? +m[1] : null;
+  }
+  function isDisclosureRecord(rec) {
+    if (!rec || (rec.k !== 'evidence' && rec.k !== 'artifact')) return false;
+    var type = String(rec.t || '').toLowerCase();
+    var summary = String(rec.s || '').toLowerCase();
+    var all = type + ' ' + summary;
+    if (/acknowledg|automatic reply|fee schedule|price list|blank .*form|procedure leaflet|draft watermark|council agenda|council minutes|clarification required|status update|request for information|chase|enquiry only/.test(all)) return false;
+    if (type.indexOf('reply attachment:') === 0) {
+      return !/fee schedule|price list|blank .*form|procedure leaflet|acknowledg|agenda|minutes|order form/.test(all);
+    }
+    return /foi|freedom of information|(^|[^a-z])eir([^a-z]|$)|environmental information|(^|[^a-z])sar([^a-z]|$)|subject.access|disclos|released document|internal review (outcome|response|decision)|information not held|search(es)? (found|conducted|result)|records? (supplied|provided|released|disclosed)|catalogue extracts|finding aid|schedule of (records|documents)|response letter|response document/.test(all);
+  }
+  function prepareCuratedEvents() {
+    (C.events || []).forEach(function (ev) {
+      var instIndex = D.institutions.findIndex(function (inst) { return inst.id === ev.institution_id; });
+      var q = D.rows.indexOf(ev.period);
+      if (instIndex < 0 || q < 0 || !ev.id) return;
+      D.records[ev.id] = {
+        k: ev.kind || 'media', t: ev.type || 'Published item', d: ev.date || ev.period,
+        s: ev.title || ev.id, summary: ev.summary || '', url: ev.url || '',
+        video_url: ev.video_url || ''
+      };
+      if (ev.image_url) TH[ev.id] = ev.image_url;
+      if (!D.notes.some(function (note) { return (note[5] || []).indexOf(ev.id) !== -1; })) {
+        D.notes.push([q, instIndex, 1, 0, 1, [ev.id]]);
+      }
+    });
+  }
+  function periodTimestamp(note) {
+    var label = rowLabel(note.q), m;
+    if (label === '1500s') return new Date(1500, 0, 1).getTime();
+    if ((m = label.match(/^(\\d{4})-Q([1-4])$/))) return new Date(+m[1], (+m[2] - 1) * 3, 1).getTime();
+    if ((m = label.match(/^(\\d{4})-(\\d{2})$/))) return new Date(+m[1], +m[2] - 1, 1).getTime();
+    if ((m = label.match(/^(\\d{4})$/))) return new Date(+m[1], 0, 1).getTime();
+    return 0;
+  }
+  function recordTimestamp(rec, note) {
+    var value = String(rec && rec.d || '').trim();
+    if (value && !/^\\d{4}$/.test(value)) {
+      var direct = Date.parse(value);
+      if (Number.isFinite(direct)) return direct;
+      var m = value.match(/^(\\d{1,2})\\s+([A-Za-z]+)\\s+(\\d{4})$/);
+      if (m) {
+        var parsed = Date.parse(m[1] + ' ' + m[2] + ' ' + m[3]);
+        if (Number.isFinite(parsed)) return parsed;
+      }
+    }
+    return periodTimestamp(note);
+  }
+  function buildYearReviewItems(year) {
+    var items = [], seen = Object.create(null);
+    notes.forEach(function (note) {
+      if (yearForRow(rowLabel(note.q)) !== year) return;
+      if (note.refs.length) {
+        note.refs.forEach(function (ref) {
+          var rec = recordData(ref);
+          if (year > 2025 && !isDisclosureRecord(rec)) return;
+          var key = ref + '|' + note.i;
+          if (seen[key]) return;
+          seen[key] = true;
+          items.push({ note: note, ref: ref, record: rec, period: rowLabel(note.q), ts: recordTimestamp(rec, note) });
+        });
+      } else if (year <= 2025) {
+        items.push({ note: note, ref: '', record: null, period: rowLabel(note.q), ts: periodTimestamp(note) });
+      }
+    });
+    items.sort(function (a, b) {
+      return a.ts - b.ts || a.note.q - b.note.q || a.note.i - b.note.i || String(a.ref).localeCompare(String(b.ref));
+    });
+    return items;
+  }
+  function renderInstitutionNames(arr) {
+    eventLabel.innerHTML = '';
+    var names = Object.create(null), count = 0;
+    (arr || []).forEach(function (item) {
+      var inst = D.institutions[item.i];
+      if (!inst || names[inst.id]) return;
+      names[inst.id] = true; count++;
+      var tag = el('span', 'ph-institution-tag', eventLabel);
+      tag.textContent = inst.name;
+      tag.style.setProperty('--lane', laneColor(inst));
+    });
+    eventLabel.classList.toggle('visible', count > 0);
+  }
+  function renderFocusItem(item, yearLabel, countLabel) {
+    currentFocusItem = item;
+    var note = item && item.note, rec = item && item.record, ref = item && item.ref;
+    var inst = note ? D.institutions[note.i] : null;
+    focusYear.textContent = yearLabel || (item && item.period) || 'Chronology';
+    focusCount.textContent = countLabel || '';
+    focusDate.textContent = (rec && rec.d) || (item && item.period) || '';
+    focusTitle.textContent = (rec && (rec.h || rec.s)) || (note ? noteTitle(note) : 'Select an event');
+    focusInstitution.textContent = inst ? inst.name : '';
+    focusMeta.textContent = rec ? ((rec.t || rec.k || 'Record') + (ref ? ' · ' + ref : '')) : (note ? (note.n + ' active day(s) · no catalogue ID') : '');
+    focusSummary.textContent = (rec && rec.summary) || (ref ? 'Select the record to open its catalogue entry.' : (note ? 'This activity entry has no catalogue record identifier.' : 'Events pause by year so the records can be reviewed in date order.'));
+    var src = ref && TH[ref] ? TH[ref] : '';
+    focusImage.hidden = !src;
+    focusFallback.hidden = !!src;
+    focusFallback.textContent = src ? '' : (ref || 'No image attached');
+    if (src) {
+      focusImage.onerror = function () { focusImage.hidden = true; focusFallback.hidden = false; focusFallback.textContent = 'Image unavailable · ' + (ref || 'record'); };
+      focusImage.src = src;
+      focusImage.alt = 'Image associated with ' + (ref || 'selected event');
+    } else {
+      focusImage.removeAttribute('src');
+      focusImage.alt = '';
+    }
+    focusOpen.hidden = !item;
+    focusOpen.textContent = ref ? 'Open record ↗' : 'Open event details';
+  }
+  function clearReviewTimer() {
+    if (reviewTimer) clearTimeout(reviewTimer);
+    reviewTimer = 0;
+  }
+  function pauseReviewAutoResume() { clearReviewTimer(); }
+  function renderYearReviewItem() {
+    if (!currentReview) return;
+    var item = currentReview.items[currentReview.index];
+    if (selectedEventEl) selectedEventEl.classList.remove('review-selected');
+    selectedEventEl = item.note.el || null;
+    if (selectedEventEl) selectedEventEl.classList.add('review-selected');
+    setSoundingRows([item.note.i]);
+    renderInstitutionNames([{ i: item.note.i }]);
+    var last = currentReview.index === currentReview.items.length - 1;
+    renderFocusItem(item, currentReview.label,
+      (currentReview.index + 1) + ' of ' + currentReview.items.length + (last ? ' · resumes in 5s' : ''));
+    nextBtn.hidden = false;
+    nextBtn.disabled = last;
+    nextBtn.textContent = 'Next';
+    nextBtn.setAttribute('aria-label', last ? 'Final record in ' + currentReview.label + '; playback resumes automatically' : 'Next record in ' + currentReview.label);
+    if (item.note && K[item.note.i]) tone(K[item.note.i].m, 0.5, 0);
+    if (last) {
+      clearReviewTimer();
+      reviewTimer = setTimeout(function () { finishYearReview(); }, 5000);
+    } else {
+      clearReviewTimer();
+    }
+  }
+  function beginYearReview(year, items, q) {
+    if (!items.length) return false;
+    stop(false);
+    currentReview = { year: year, label: year === 1500 ? '1500s' : String(year), items: items, index: 0 };
+    positionAt(q + 0.5);
+    lastR = progressR; clock = tAt(progressR); lastT = 0;
+    playBtn.setAttribute('aria-pressed', 'false');
+    playBtn.setAttribute('aria-label', 'Resume');
+    playLabel.textContent = 'Resume';
+    renderYearReviewItem();
+    return true;
+  }
+  function finishYearReview() {
+    if (!currentReview) return;
+    yearReviewStarted[currentReview.year] = true;
+    clearReviewTimer();
+    currentReview = null;
+    nextBtn.hidden = true;
+    nextBtn.disabled = false;
+    if (selectedEventEl) selectedEventEl.classList.remove('review-selected');
+    selectedEventEl = null;
+    setSoundingRows([]);
+    start();
+  }
+  function cancelYearReview(resetVisited) {
+    clearReviewTimer();
+    currentReview = null;
+    nextBtn.hidden = true;
+    nextBtn.disabled = false;
+    if (selectedEventEl) selectedEventEl.classList.remove('review-selected');
+    selectedEventEl = null;
+    if (resetVisited) yearReviewStarted = Object.create(null);
+  }
+  function nextYearRecord() {
+    if (!currentReview || currentReview.index >= currentReview.items.length - 1) return;
+    currentReview.index++;
+    renderYearReviewItem();
+  }
+
   function buildMarkers() {
     markers.innerHTML = '';
     notes = []; rows = Array.from({length:Q}, function () { return []; });
     eventRefs = {}; eventEls = [];
     D.notes.forEach(function (nt, index) {
-      var q = +nt[0], i = +nt[1], refs = nt[5] || [];
-      var o = { index:index, q:q, i:i, n:+nt[2], v:+nt[3] || 0, p:+nt[4] || 0, refs:refs.slice() };
+      var q = +nt[0], i = +nt[1], refs = (nt[5] || []).slice();
+      if (yearForRow(D.rows[q]) > 2025) {
+        refs = refs.filter(function (ref) { return isDisclosureRecord(recordData(ref)); });
+        if (!refs.length) return;
+      }
+      var o = { index:index, q:q, i:i, n:+nt[2], v:+nt[3] || 0, p:+nt[4] || 0, refs:refs };
       rows[q].push(o); notes.push(o);
       o.primary = bestRef(o);
       o.refs.forEach(function(ref){ (eventRefs[ref] || (eventRefs[ref] = [])).push(o); });
@@ -571,7 +762,7 @@
   }
   function tick() { if(!audio())return;var t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=1250;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.025,t+0.002);g.gain.exponentialRampToValueAtTime(0.0001,t+0.04);o.connect(g);g.connect(master);o.start(t);o.stop(t+0.05); }
 
-  function openDetail() { if(detailDlg.showModal)detailDlg.showModal();else detailDlg.setAttribute('open',''); }
+  function openDetail() { pauseReviewAutoResume(); if(detailDlg.showModal)detailDlg.showModal();else detailDlg.setAttribute('open',''); }
   function setFrame(url,title) {
     detailFrame.hidden=!url;
     if(url)detailFrame.src=url;else detailFrame.removeAttribute('src');
@@ -603,13 +794,15 @@
         b.addEventListener('click',function(){showRecord(ref,note,b);});
       });
     }
-    detailSummary.textContent=(rec&&rec.s?rec.s+' · ':'')+(note?D.institutions[note.i].name+' · '+D.rows[note.q]+' · '+note.n+' active day(s)':'');
+    detailSummary.textContent=(rec&&(rec.h||rec.s)?(rec.h||rec.s)+' · ':'')+(note?D.institutions[note.i].name+' · '+D.rows[note.q]+' · '+note.n+' active day(s)':'');
+    if(rec&&rec.summary){var recordSummary=el('p','ph-side-intro',detailSide);recordSummary.textContent=rec.summary;}
     if(note&&note.refs.length) {
       el('div','ph-side-section',detailSide).textContent='Event context';
       var p=el('p','ph-side-intro',detailSide);p.textContent='This event cell links '+note.refs.length+' catalogue record reference(s). The full event record opens in the panel.';
     }
-    setFrame('/catalogue/?id='+encodeURIComponent(id),'Catalogue record '+id);
-    detailOpen.textContent='Open in catalogue ↗';
+    setFrame((rec&&rec.url)||('/catalogue/?id='+encodeURIComponent(id)),'Catalogue record '+id);
+    detailOpen.dataset.url=(rec&&rec.url)||('/catalogue/?id='+encodeURIComponent(id));
+    detailOpen.textContent=rec&&rec.url?'Open source page ↗':'Open in catalogue ↗';
     openDetail();
   }
   function showEvent(o,trigger) {
@@ -724,24 +917,16 @@
   $('ph-reports').addEventListener('click',function(){showAllReports($('ph-reports'));});
   detailSide.addEventListener('click',function(){});
 
-  function renderLabel(arr) {
-    eventLabel.innerHTML='';
-    var chosen=arr.slice().sort(function(a,b){
-      var aa=TH[a.primary]?1:0,bb=TH[b.primary]?1:0;
-      return bb-aa||b.n-a.n;
-    }).slice(0,3);
-    chosen.forEach(function(o){
-      var rec=recordData(o.primary),inst=D.institutions[o.i];
-      var card=el('article','ph-label-card',eventLabel);card.style.setProperty('--lane',laneColor(inst));
-      card.appendChild(makePreview(o,o.primary,'ph-label-image'));
-      var text=el('div','ph-label-text',card);
-      var date=el('div','ph-label-date',text);date.textContent=(rec&&rec.d)||D.rows[o.q];
-      var title=el('div','ph-label-title',text);title.textContent=noteTitle(o);
-      var sub=el('div','ph-label-sub',text);sub.textContent=inst.name+' · '+(o.refs.length?o.refs.join(', '):o.n+' active day(s)');
-    });
-    eventLabel.classList.add('visible');
-    scheduleLabHide(3200);
+  function renderLiveEvents(arr) {
+    renderInstitutionNames(arr);
+    if (!arr.length) return;
+    var selected = arr.slice().sort(function (a, b) {
+      var ta = TH[a.primary] ? 1 : 0, tb = TH[b.primary] ? 1 : 0;
+      return tb - ta || a.q - b.q || a.i - b.i;
+    })[0];
+    renderFocusItem({ note: selected, ref: selected.primary || '', record: recordData(selected.primary), period: rowLabel(selected.q) }, rowLabel(selected.q), '');
   }
+
   function refreshFilter() {
     notes.forEach(function(o){o.el.classList.toggle('off',!inFilter(o));});
     if (SOUNDING_ROWS.length) setSoundingRows(notes.filter(function(o){return SOUNDING_ROWS.indexOf(o.i)!==-1 && inFilter(o);}).map(function(o){return o.i;}));
@@ -764,7 +949,7 @@
     raf=requestAnimationFrame(step);
   }
   function setProgress(r,fromUser) {
-    if(fromUser&&playing)stop(true);
+    if(fromUser){cancelYearReview(true);if(playing)stop(true);}
     positionAt(r);lastR=progressR;clock=tAt(progressR);
   }
   function step(t) {
@@ -775,7 +960,14 @@
     var r1=rAt(clock);
     positionAt(r1);
     for(var q=Math.max(0,Math.floor(r0-0.5));q<Q&&q+0.5<=r1+1e-6;q++){
-      if(q+0.5>r0+1e-6)fire(q);
+      if(q+0.5>r0+1e-6){
+        var year=yearForRow(rowLabel(q));
+        if(year!==null&&!yearReviewStarted[year]){
+          var yearItems=buildYearReviewItems(year);
+          if(yearItems.length){yearReviewStarted[year]=true;beginYearReview(year,yearItems,q);return;}
+        }
+        fire(q);
+      }
     }
     lastR=r1;
     if(r1>=Q-1e-6){stop(false);return;}
@@ -784,18 +976,20 @@
   function fire(q) {
     var arr=rows[q]?rows[q].filter(inFilter):[];
     setSoundingRows(arr.map(function(o){return o.i;}));
-    if(!arr.length){tick();return;}
+    if(!arr.length){renderInstitutionNames([]);tick();return;}
     arr.forEach(function(o,j){
       var vel=(0.48+0.52*Math.min(1,Math.log(1+o.n)/Math.log(9)))/Math.sqrt(Math.max(1,arr.length/3));
       tone(K[o.i].m,vel,j*Math.min(0.025,0.35/arr.length));
       o.el.classList.add('hit');setTimeout(function(){o.el.classList.remove('hit');},540);
     });
-    renderLabel(arr);
+    renderLiveEvents(arr);
     tick();
     BK.beat++;
     if(BK.on&&BK.beat%4===0)backingChord();
   }
-  function togglePlay(){if(playing)stop(true);else start();}
+  function togglePlay(){if(currentReview){finishYearReview();return;}if(playing)stop(true);else start();}
+  nextBtn.addEventListener('click',nextYearRecord);
+  focusOpen.addEventListener('click',function(){if(!currentFocusItem)return;var item=currentFocusItem;if(item.ref)showRecord(item.ref,item.note,focusOpen);else if(item.note)showEvent(item.note,focusOpen);});
   playBtn.addEventListener('click',togglePlay);
   x2Btn.addEventListener('click',function(){dbl=!dbl;x2Btn.setAttribute('aria-pressed',String(dbl));});
   backingBtn.addEventListener('click',function(){BK.on=!BK.on;backingBtn.setAttribute('aria-pressed',String(BK.on));backingBtn.setAttribute('aria-label',BK.on?'Backing sound on':'Backing sound off');});
@@ -815,6 +1009,7 @@
   }
   function dragMove(ev) {
     if(!drag||!drag.active||drag.pointer!==ev.pointerId)return;
+    cancelYearReview(true);
     var dx=drag.startX-ev.clientX;
     var r=xToProgress(XAtDrag(drag.startR)+dx);
     if(playing)stop(true);
@@ -839,18 +1034,19 @@
     Promise.all([
       fetch('data/activity.json?v=0.6.0').then(function(r){if(!r.ok)throw new Error('Activity data HTTP '+r.status);return r.json();}),
       fetch('data/thumbs.json?v=0.4.0').then(function(r){return r.ok?r.json():{};}),
-      fetch('data/forensic-links.json?v=0.6.0').then(function(r){if(!r.ok)throw new Error('Assessment map HTTP '+r.status);return r.json();})
+      fetch('data/forensic-links.json?v=0.6.0').then(function(r){if(!r.ok)throw new Error('Assessment map HTTP '+r.status);return r.json();}),
+      fetch('data/curated-events.json?v=0.8.0').then(function(r){return r.ok?r.json():{events:[]};})
     ]).then(function(data){
-      D=data[0];TH=data[1].thumbs||{};F=data[2];
+      D=data[0];TH=data[1].thumbs||{};F=data[2];C=data[3]||{};prepareCuratedEvents();
       N=D.institutions.length;Q=D.rows.length;ROW_H=parseFloat(getComputedStyle(app).getPropertyValue('--ph-row'))||42;
       var g=geometry(N);K=g.keys;
       computeLaneLayout([], scoreViewport.clientHeight || N * ROW_H);
       progress.max=Q;
       buildColumns();buildKeys();buildRulerAndGrid();buildMarkers();buildReportMarkersAndLines();buildSegs();
       positionAt(0);built=true;
-      $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
+      $('ph-data-note').textContent='Activity data '+D.generated+' · post-2025 timeline limited to disclosure records';
       window.PianoHero={
-        version:'0.7.5',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.8.0',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
