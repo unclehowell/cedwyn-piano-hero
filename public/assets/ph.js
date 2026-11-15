@@ -162,6 +162,26 @@
     app.classList.toggle('ph-has-sounding', activeCount > 0);
   }
 
+
+  function soundingKeyLabel(name) {
+    var shortNames = {
+      'Church of England archives (Lambeth Palace)':'Lambeth Palace Archives',
+      'Government Legal Department (Bona Vacantia)':'Government Legal Department',
+      "Prime Minister's Office / Cabinet Office":'PMO / Cabinet Office',
+      'Cardiff and Vale University Health Board':'Cardiff & Vale UHB',
+      'Department for Culture, Media and Sport':'Culture, Media & Sport',
+      'Local Government Association / WLGA':'Local Government Assoc. / WLGA',
+      'Counter Terrorism Policing (NaCTSO)':'Counter Terrorism Policing',
+      'Heneb / Historic Environment Record':'Heneb / HER',
+      'Family evidence repository and wiki':'Family evidence repository',
+      'Holder not stated or not located':'Holder not located',
+      "Coroner's Service (RCT Council)":"Coroner's Service (RCT)",
+      'Member of Parliament (office)':'MP (office)',
+      'Mount Stuart (Bute archive)':'Bute archive (Mount Stuart)'
+    };
+    return shortNames[name] || name;
+  }
+
   function applyLaneGeometry() {
     keyList.style.flex = '0 0 auto';
     keyList.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
@@ -171,7 +191,10 @@
       key.style.top = top.toFixed(2) + 'px';
       key.style.height = height.toFixed(2) + 'px';
       key.style.setProperty('--lane-row', height.toFixed(2) + 'px');
-      key.classList.toggle('sounding', SOUNDING_ROWS.indexOf(i) !== -1);
+      var sounding = SOUNDING_ROWS.indexOf(i) !== -1;
+      key.classList.toggle('sounding', sounding);
+      var keyName = key.querySelector('.ph-key-name');
+      if (keyName) keyName.textContent = sounding ? soundingKeyLabel(D.institutions[i].name) : D.institutions[i].name;
     });
     timeInner.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
     bands.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
