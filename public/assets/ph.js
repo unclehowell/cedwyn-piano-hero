@@ -1,4 +1,4 @@
-/* Piano Hero 0.7.0 — viewport-fitted score with floating playback control. */
+/* Piano Hero 0.7.1 — viewport-fitted score with floating playback control. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -343,6 +343,10 @@
 
   function fitLayout() {
     if (!D || !built || !N) return;
+    var viewportHeight = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight;
+    var appTop = Math.max(0, app.getBoundingClientRect().top);
+    var targetAppHeight = Math.max(240, viewportHeight - appTop);
+    if (Math.abs(app.clientHeight - targetAppHeight) > 1.5) app.style.height = targetAppHeight.toFixed(2) + 'px';
     var rulerEl = $('ph-year-ruler');
     var rulerHeight = rulerEl ? rulerEl.getBoundingClientRect().height : 38;
     var available = laneScroll.clientHeight - rulerHeight;
@@ -729,7 +733,7 @@
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.7.0',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.1',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
