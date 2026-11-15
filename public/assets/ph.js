@@ -321,11 +321,16 @@
     var type = String(rec.t || '').toLowerCase();
     var summary = String(rec.s || '').toLowerCase();
     var all = type + ' ' + summary;
-    if (/acknowledg|automatic reply|fee schedule|price list|blank .*form|procedure leaflet|draft watermark|council agenda|council minutes|clarification required|status update|request for information|chase|enquiry only/.test(all)) return false;
+    // Administrative steps and outward pursuit are not disclosures.
+    if (/acknowledg|automatic reply|fee schedule|price list|blank .*form|procedure leaflet|draft watermark|council agenda|council minutes|clarification|extension letter|extension request|enquiry to former|outgoing correspondence|outgoing email|email complaint|undeliverable|receipt confirmation|request acknowledged|confirm your foi request|status update|chase|order form/.test(all)) return false;
+    // Attachments count only where the catalogue description identifies a response, release, report,
+    // searched/located record, catalogue extract, finding aid or supplied map/document.
     if (type.indexOf('reply attachment:') === 0) {
-      return !/fee schedule|price list|blank .*form|procedure leaflet|acknowledg|agenda|minutes|order form/.test(all);
+      return /foi|freedom of information|(^|[^a-z])eir([^a-z]|$)|environmental information|(^|[^a-z])sar([^a-z]|$)|subject.access|disclos|released document|internal review (outcome|response|decision)|response letter|response document|archaeological assessment|map extract|archive catalogue|catalogue extract|finding aid|schedule of records|search result/.test(all);
     }
-    return /foi|freedom of information|(^|[^a-z])eir([^a-z]|$)|environmental information|(^|[^a-z])sar([^a-z]|$)|subject.access|disclos|released document|internal review (outcome|response|decision)|information not held|search(es)? (found|conducted|result)|records? (supplied|provided|released|disclosed)|catalogue extracts|finding aid|schedule of (records|documents)|response letter|response document/.test(all);
+    // These are catalogue-classified substantive responses, including not-held and refusal outcomes.
+    if (/email[ /-]*foi reply|foi response|sar response/.test(type)) return true;
+    return /freedom of information|(^|[^a-z])eir([^a-z]|$)|environmental information|(^|[^a-z])sar([^a-z]|$)|subject.access|disclos|released document|internal review (outcome|response|decision)|information not held|search(es)? (found|conducted|result)|records? (supplied|provided|released|disclosed)|catalogue extracts|finding aid|schedule of (records|documents)|response letter|response document/.test(all);
   }
   function prepareCuratedEvents() {
     (C.events || []).forEach(function (ev) {
