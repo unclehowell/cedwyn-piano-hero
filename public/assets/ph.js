@@ -140,7 +140,7 @@
       b.dataset.index = i;
       b.style.setProperty('--lane', laneColor(inst));
       b.title = titleFor(inst);
-      b.setAttribute('aria-label', 'Institution key: ' + inst.name + '. ' + rel.length + ' mapped forensic reports. Open details.');
+      b.setAttribute('aria-label', 'Institution / party key: ' + inst.name + '. ' + rel.length + ' mapped forensic reports. Open details.');
       var nn = el('span', 'ph-key-note', b); nn.textContent = noteName(k.m);
       var name = el('span', 'ph-key-name', b); name.textContent = inst.name;
       var meta = el('span', 'ph-key-meta', b);
