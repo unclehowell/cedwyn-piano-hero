@@ -263,3 +263,8 @@ body.ph-body{height:100vh;height:100dvh;overflow:hidden}
 .ph-has-sounding .ph-inst-key:not(.sounding) .ph-key-meta{display:none!important}
 .ph-has-sounding .ph-inst-key:not(.sounding){border-left-width:2px;padding:0;background:rgba(120,105,80,.09)}
 .ph-key-rail{min-height:0}
+
+
+/* 0.7.5 — active and idle piano keys share one immutable outer width. */
+.ph-inst-key{box-sizing:border-box}
+.ph-inst-key.sounding .ph-key-name{font-size:clamp(8px,calc(var(--lane-row)*.92),11px);line-height:.92}
