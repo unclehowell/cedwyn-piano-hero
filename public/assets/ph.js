@@ -92,27 +92,24 @@
   function xForRow(q) { return X[Math.max(0, Math.min(Q - 1, q))] || 0; }
   function xAt(r) {
     if (!Q) return 0;
-    if (r <= 0) return Math.max(0, X[0] - W[0] / 2);
-    if (r >= Q) return X[Q - 1] + W[Q - 1] / 2;
-    var q = Math.max(0, Math.min(Q - 1, Math.floor(r)));
-    var u = r - q;
-    var left = q === 0 ? X[0] - W[0] / 2 : X[q - 1] * 0.5 + X[q] * 0.5;
-    var right = q === Q - 1 ? X[q] + W[q] / 2 : (X[q] + X[q + 1]) / 2;
-    return left + (right - left) * u;
+    if (Q === 1) return X[0] + (r - 0.5) * W[0];
+    var z = r - 0.5;
+    if (z <= 0) return X[0] + z * (X[1] - X[0]);
+    if (z >= Q - 1) return X[Q - 1] + (z - (Q - 1)) * (X[Q - 1] - X[Q - 2]);
+    var q = Math.floor(z), u = z - q;
+    return X[q] + (X[q + 1] - X[q]) * u;
   }
   function rowAtX(x) {
     if (!Q) return 0;
-    if (x <= X[0]) return 0;
-    if (x >= X[Q - 1]) return Q;
+    if (Q === 1) return 0.5 + (x - X[0]) / W[0];
+    if (x <= X[0]) return Math.max(0, 0.5 + (x - X[0]) / (X[1] - X[0]));
+    if (x >= X[Q - 1]) return Math.min(Q, Q - 0.5 + (x - X[Q - 1]) / (X[Q - 1] - X[Q - 2]));
     var lo = 0, hi = Q - 1;
     while (hi - lo > 1) {
       var mid = (lo + hi) >> 1;
       if (X[mid] < x) lo = mid; else hi = mid;
     }
-    var q = X[hi] === X[lo] ? lo : (x - X[lo]) / (X[hi] - X[lo]) < 0.5 ? lo : hi;
-    var left = q === 0 ? X[0] - W[0] / 2 : (X[q - 1] + X[q]) / 2;
-    var right = q === Q - 1 ? X[q] + W[q] / 2 : (X[q] + X[q + 1]) / 2;
-    return q + Math.max(0, Math.min(1, (x - left) / Math.max(1, right - left)));
+    return lo + 0.5 + (x - X[lo]) / (X[hi] - X[lo]);
   }
   function columnWidth(label, q) {
     if (q < (D.lead_in || 0)) return 34;
@@ -150,10 +147,6 @@
       if (rel.length) { var badge = el('span', 'ph-key-report', meta); badge.textContent = 'FA ' + rel.length; }
       var count = el('span', 'ph-key-count', meta); count.textContent = inst.events;
       keyEls.push(b);
-      var mark = el('div', 'ph-lane-band', bands);
-      mark.style.top = (i * ROW_H) + 'px';
-      mark.style.setProperty('--lane', laneColor(inst));
-      mark.dataset.index = i;
     });
   }
   function buildRulerAndGrid() {
@@ -195,10 +188,7 @@
     } else {
       var txt = el('span', '', b); txt.textContent = ref || 'EVENT';
     }
-    b.addEventListener('click', function () {
-      if (ref) showRecord(ref, o, b);
-      else showEvent(o, b);
-    });
+    b.addEventListener('click', function () { showEvent(o, b); });
     return b;
   }
   function buildMarkers() {
@@ -210,7 +200,7 @@
       var o = { index:index, q:q, i:i, n:+nt[2], v:+nt[3] || 0, p:+nt[4] || 0, refs:refs.slice() };
       rows[q].push(o); notes.push(o);
       o.primary = bestRef(o);
-      if (o.primary) (eventRefs[o.primary] || (eventRefs[o.primary] = [])).push(o);
+      o.refs.forEach(function(ref){ (eventRefs[ref] || (eventRefs[ref] = [])).push(o); });
       var inst = D.institutions[i];
       var b = makeButton('', 'ph-event-marker', markers);
       b.dataset.eventIndex = index;
@@ -333,20 +323,20 @@
     }
     return segs.length ? segs[segs.length-1][1] : 0;
   }
-  function progressLabel(r) {
+  function progressText(r) {
     var q = Math.max(0,Math.min(Q-1,Math.floor(r)));
     return (r >= Q ? D.rows[Q-1] + ' · end' : D.rows[q]);
   }
   function positionAt(r) {
     progressR = Math.max(0,Math.min(Q,r));
+    PLAYHEAD_X = parseFloat(getComputedStyle(app).getPropertyValue('--ph-playhead')) || 136;
     var tx = PLAYHEAD_X - xAt(progressR);
     var transform = 'translate3d(' + tx.toFixed(1) + 'px,0,0)';
     ruler.style.transform = transform;
     timeInner.style.transform = transform;
-    var q = Math.max(0,Math.min(Q-1,Math.floor(Math.max(0,progressR))));
-    nowEl.textContent = progressLabel(progressR);
+    nowEl.textContent = progressText(progressR);
     progress.value = String(progressR);
-    progressLabelEl.textContent = progressR <= 0 ? 'Beginning · ' + D.rows[0] : progressLabel(progressR);
+    progressLabel.textContent = progressR <= 0 ? 'Beginning · ' + D.rows[0] : progressText(progressR);
   }
   function clearLabTimer() {
     if (labTimer) clearTimeout(labTimer);
@@ -457,6 +447,7 @@
     var rec=recordData(id), title=rec&&rec.title?rec.title:id;
     resetDetail(title,id+' · catalogue record');
     detailSub.textContent=(rec&&rec.d?rec.d+' · ':'')+id;
+    if(note){var back=makeButton('← Back to event','ph-back-report',detailSide);back.addEventListener('click',function(){showEvent(note,back);});}
     var intro=el('p','',detailSide);intro.textContent='Catalogue records are the source of the event description. Select another record reference from this event below.';
     if(note&&note.refs.length>1){
       el('div','ph-side-section',detailSide).textContent='Event record references';
@@ -483,7 +474,7 @@
     if(o.refs.length){
       o.refs.forEach(function(id){var rec=recordData(id);var b=makeButton((rec&&rec.s?rec.s+' · ':'')+id,'ph-side-item',detailSide);b.addEventListener('click',function(){showRecord(id,o,b);});});
     } else {var p=el('p','ph-side-intro',detailSide);p.textContent='This activity entry has no catalogue record identifier. Its event detail is limited to the institutional activity register.';}
-    setFrame('', '');
+    setFrame(o.primary?'/catalogue/?id='+encodeURIComponent(o.primary):'', o.primary?'Catalogue record '+o.primary:'');
     detailOpen.hidden=!(o.primary);
     detailOpen.dataset.url=o.primary?'/catalogue/?id='+encodeURIComponent(o.primary):'';
     detailOpen.textContent='Open catalogue record ↗';
@@ -496,13 +487,13 @@
     var chip=el('span','ph-chip '+(report.relationship==='direct'?'direct':'related'),detailSummary);
     chip.textContent=report.relationship==='direct'?'Direct institution match':'Related body · '+report.relationship_note;
     var verdict=el('p','',detailSummary);verdict.textContent=report.verdict||'Published institutional forensic assessment.';
-    var meta=el('p','ph-side-intro',detailSummary);meta.textContent=report.status+' · '+report.published;
+    var meta=el('p','ph-side-intro',detailSummary);meta.textContent=report.status+' · '+report.published+(report.relationship==='related'?' · '+report.relationship_note:'');
     setFrame(report.url,'Forensic assessment: '+report.name);
     detailOpen.textContent='Open assessment ↗';
     openDetail();
     detailSide.innerHTML='';
-    var back=makeButton('← Back to institution','ph-back-report',detailSide);
-    back.addEventListener('click',function(){showInstitution(inst,back);});
+    var back=makeButton(inst?'← Back to institution':'← Back to report register','ph-back-report',detailSide);
+    back.addEventListener('click',function(){if(inst)showInstitution(inst,back);else showAllReports(back);});
     el('div','ph-side-section',detailSide).textContent='Cited catalogue records';
     var cites=report.citation_ids||[];
     if(cites.length){
@@ -542,9 +533,13 @@
     });
     var report=reports.find(function(r){return r.relationship==='direct';})||reports[0];
     var verdict=el('p','',detailSummary);verdict.textContent=report.verdict||'Select a report from the list.';
+    if(report.relationship==='related'){var why=el('p','ph-side-intro',detailSummary);why.textContent=report.relationship_note;}
     detailSummary.prepend((function(){var s=el('span','ph-chip '+(report.relationship==='direct'?'direct':'related'));s.textContent=report.relationship==='direct'?'Direct match':'Related body';return s;})());
     detailOpen.hidden=false;detailOpen.dataset.url=report.url;detailOpen.textContent='Open assessment ↗';
     setFrame(report.url,'Forensic assessment: '+report.name);
+    el('div','ph-side-section',detailSide).textContent='Cited catalogue records';
+    if((report.citation_ids||[]).length){report.citation_ids.forEach(function(id){var rec=recordData(id);var cb=makeButton((rec&&rec.d?rec.d+' · ':'')+id,'ph-cite-button',detailSide);cb.addEventListener('click',function(){showRecord(id,null,cb);});});}
+    else {var no=el('p','ph-side-intro',detailSide);no.textContent='No catalogue IDs were found in this assessment text extraction.';}
     openDetail();
   }
   function showAllReports(trigger) {
@@ -649,24 +644,27 @@
     if(ev.button!==undefined&&ev.button!==0)return;
     var target=ev.target;
     if(target.closest&&target.closest('button'))return;
-    var rect=scoreViewport.getBoundingClientRect();
-    var contentX=ev.clientX-rect.left-(PLAYHEAD_X-xAt(progressR));
-    drag={pointer:ev.pointerId,active:true,origin:contentX,progress:progressR};
+    drag={pointer:ev.pointerId,active:true,startX:ev.clientX,startR:progressR};
     try{scoreViewport.setPointerCapture(ev.pointerId);}catch(e){}
     ev.preventDefault();
   }
   function dragMove(ev) {
     if(!drag||!drag.active||drag.pointer!==ev.pointerId)return;
-    var rect=scoreViewport.getBoundingClientRect();
-    var contentX=ev.clientX-rect.left-(PLAYHEAD_X-xAt(progressR));
-    var dx=drag.origin-contentX;
-    var r=xToProgress(XAtDrag(drag.progress)+dx);
+    var dx=drag.startX-ev.clientX;
+    var r=xToProgress(XAtDrag(drag.startR)+dx);
     if(playing)stop(true);
     positionAt(r);clock=tAt(r);lastR=r;
   }
   function XAtDrag(r){return xAt(r);}
   function xToProgress(x){return rowAtX(x);}
   function dragEnd(ev){if(drag&&drag.pointer===ev.pointerId){drag=null;}}
+  markers.addEventListener('click',function(ev){
+    var eventButton=ev.target.closest&&ev.target.closest('.ph-event-marker');
+    if(eventButton){var o=notes.find(function(x){return x.index===+eventButton.dataset.eventIndex;});if(o)showEvent(o,eventButton);return;}
+    var reportButton=ev.target.closest&&ev.target.closest('.ph-report-marker');
+    if(reportButton){var reportId=reportButton.dataset.reportId,report=(F.assessments||[]).find(function(x){return x.id===reportId;}),inst=D.institutions[+reportButton.dataset.institutionIndex];if(report)showReport(report,inst,reportButton);}
+  });
+  keyList.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('.ph-inst-key');if(!b)return;var inst=D.institutions[+b.dataset.index];if(inst)showInstitution(inst,b);});
   scoreViewport.addEventListener('pointerdown',dragStart);
   scoreViewport.addEventListener('pointermove',dragMove);
   scoreViewport.addEventListener('pointerup',dragEnd);
