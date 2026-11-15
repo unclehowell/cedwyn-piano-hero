@@ -1,44 +1,32 @@
 # cedwyn-piano-hero — Piano Hero (webapp 58 of 59)
 
-**Live:** https://bucklerfamily.estate/piano-hero/ — served from this repo's `main`, folder `public/`, by the Cloudflare Worker
-`bfe-piano-hero` (source `worker/bfe-piano-hero.js`; GitHub raw, edge-cached 5 minutes, so a push to `main` is live within about 5 minutes).
+**Live:** https://bucklerfamily.estate/piano-hero/ — served from this repo's `main/public/` by the Cloudflare Worker `bfe-piano-hero`. The worker reads the current `main` build and edge-caches it briefly.
 
-Every party in the Cedwyn record is a piano key (v0.5.0): the left half holds the quietest parties, least active on the far left; the right half starts with the most active party on key 45 (F4, just above middle C) and grows quieter towards the top, so the busiest parties play the middle of the keyboard; the rows run from a
-four-year count-in before the 1500s (one row), then a row a year from 1600, every quarter from 1988 and every month from January 2026; a note sits wherever that party was active.
-Press play and the table slides down like a rhythm game; each note sounds as it reaches the centre line, on a steady beat (an empty stretch takes at most two beats).
-A filter plays All notes, only press coverage, later citation and interpretation, or only verbatim source records and transcripts; each note's label sums up the event on its date (from the catalogue record) with the record's picture where the catalogue holds one (else the catalogue's placeholder for its kind), and the party's badge and #hashtag (v0.4.0).
-A backing loop (mallets, guitar, soft voices; synthesised with WebAudio, no samples, so no licence applies) plays on the beat with its own on/off button and volume (v0.4.0).
-A visible record card stays on screen while playback is paused; its remaining display time resumes with playback. Select a note card carrying a catalogue ID to open that full central catalogue entry in a modal, with an option to open the same entry in the catalogue (v0.5.0).
-An (i) button sits on top of every key (v0.3.1): it opens a small panel with the party's name, active days, first and last year and the catalogue IDs of its notes (no links); Esc, the × button or a tap outside closes it.
+## Current experience · v0.6.0
 
-## Data (v0.3.0; see the tools/build_data.py docstring for the rows, the filter classes and the label facts)
-`public/data/activity.json` is built by `tools/build_data.py`
-(`python3 tools/build_data.py --unmatched`, optionally `--gmail <mail manifest>`; without it the catalogue's email records are used):
-- emails RECEIVED from institutions (replies, acknowledgements, releases); emails sent to them are not counted;
-- dated records in the central catalogue (`https://cedwyn.bucklerfamily.estate/api/catalogue`), not email records and not
-  correspondence-thread summaries (those are dated at the opening request);
-- first replies in the ERP flows data (`unclehowell/cedwyn-erp` `public/data/flows.json`);
-- "Received" and "Website" entries of the forensic activity journal (`unclehowell/cedwyn-forensic`);
-- WhatDoTheyKnow responses on the case requests (`tools/inputs/wdtk-responses.json`);
-- watchtower website changes (`unclehowell/cedwyn-watchtower` `public/data/changes.json`, and `watch-events.json` released / altered / removed);
-- the Williams family: days on which a received reply, a dated catalogue record or a dated chronology event
-  (`unclehowell/cedwyn-wayback` `wayback/chronology/chronology.json`) names the family.
+Piano Hero is a horizontal chronological score with one institutional lane for each of the 88 activity parties:
 
-A count is **one party active on one day** (the same day in several sources counts once); a cell holds that party's active days in
-the quarter (to 2025-Q4) or the month (from 2026-01). Names are folded into one canonical list in the script. A piano has 88 keys, so the
-least active are left out and named in `left_out`. **Key order (v0.3.0):** by active days, rising to the right: the least active party on the far left key, the most active on the
-far right (v0.2.0 was centre out). Keys are numbered 1..88 from left to right.
+- **Institution keys:** the left-hand piano rail keeps the names in fixed vertical rows. The rows use an 88-note piano pitch sequence; selecting a key opens its mapped institutional forensic assessment report(s).
+- **Chronology:** years run oldest at the left to newest at the right. The 1500s are one column; there is one column per year from 1600, then quarters from 1988-Q1 to 2025-Q4, then months from January 2026.
+- **Playback:** one Play/Pause button moves the year ruler, columns, event markers and connector lines right-to-left in unison towards a fixed sounding line. An event sounds on its institution's piano key as its column reaches that line. The ×2 control, event filter and backing-sound toggle remain available.
+- **Event details:** the image preview is a button, not a linked title or subheading. Selecting an event opens its context and the full central catalogue record in the detail modal. Other catalogue IDs in the same event are selectable from the modal.
+- **Forensic graph:** each institution has its own colour. Solid lines connect its timeline events to its mapped assessment report; dotted lines distinguish related-body report mappings; dashed lines connect a report to catalogue IDs explicitly named in the assessment text where those records also appear on the activity timeline.
+- **Report detail:** selecting an institution key opens its direct and related forensic reports in the modal. The full report page is embedded there. The All 64 Reports control also exposes the 13 published assessments not assigned to an institution lane.
+- **Pause:** the current event label's remaining display time is held while paused and resumes when playback restarts. Opening an event, institution or report modal pauses playback.
 
-## Labels, pictures and key order (v0.4.0)
-After `tools/build_data.py`, run `python3 tools/enrich_labels.py` (needs Pillow). It turns the right half round (most active party on key 45),
-writes each record's short date (`d`) and event summary (`s`, at most 8 words, editorial filters applied) into `records`, and writes
-`public/data/thumbs.json`: small webp thumbnails (data URIs) of every catalogue picture on our own domains (research evidence pages; the
-catalogue's reconstructions of missing records). Nothing is hotlinked.
+The central catalogue remains authoritative. Piano Hero's activity data supplies the timeline summaries and image thumbnails; its forensic relationship file stores the report mapping and cited IDs, not duplicate report text or record transcripts.
 
-## Layout
-- `public/index.html` page shell (shared header, footer, theme and N-of-59 nav come from `/_cedwyn/ghf/ghf-boot.js` with `window.__cedwynLP="/piano-hero/"`).
-- `public/assets/ph.js` keyboard geometry (N consecutive keys of a real piano, A0..C8, first and last white), grid, WebAudio piano, playback.
-- `public/assets/ph.css` light and night themes (`html[data-ghf-mode=night]`).
-- No `<a>` elements inside the app (`#ph`).
+## Data files
+
+- `public/data/activity.json` is built by `tools/build_data.py`. It contains 88 parties, 556 chronological rows and 625 occupied event cells (one party active on one day in a cell, with source overlap deduplicated). Inputs include received institutional correspondence, dated catalogue records, ERP replies, the forensic activity journal, WhatDoTheyKnow responses, watchtower changes and Williams-family chronology activity.
+- `public/data/thumbs.json` contains small local WebP thumbnails as data URIs. The score does not hotlink original images.
+- `public/data/forensic-links.json` is a reviewed cross-reference built from `unclehowell/cedwyn-forensic/data.json` and the published assessment pages. It carries 64 report records; direct and related-body institutional mappings are labelled separately. It maps 51 distinct reports to 42 institution rows and retains 13 otherwise unassigned reports in the all-reports directory. Its citation IDs are only those explicitly found in the assessment-page text extraction; a report-to-event connector is drawn only when that catalogue ID is present in the timeline data.
+
+## Source and layout
+
+- `public/index.html` contains the webapp shell, year ruler, fixed institutional key rail, status controls and detail dialogs.
+- `public/assets/ph.js` builds the 88 piano keys, 556 time columns, event markers, report markers and SVG connector graph; it handles horizontal playback, sound, filtering, drag-to-scrub and the record/report modals.
+- `public/assets/ph.css` defines the light/dark themes, fixed rail, responsive score and modal layouts.
+- The app surface uses buttons for event previews, institution keys and modal actions. It does not turn event titles or subtitles into hyperlinks.
 
 — Sion's Tab agent
