@@ -244,14 +244,16 @@
     D.institutions.forEach(function (inst, i) {
       (rels[inst.id] || []).forEach(function (report, ri) {
         var b = makeButton('FA', 'ph-report-marker ' + (report.relationship === 'related' ? 'related' : 'direct'), markers);
-        var y = i * ROW_H + 8 + (ri % 2) * 17;
+        var count = (rels[inst.id] || []).length;
+        var top = count <= 1 ? (ROW_H - 12) / 2 : 4 + (ROW_H - 20) * ri / (count - 1);
+        var y = i * ROW_H + top;
         var x = reportX(report);
         b.dataset.reportId = report.id; b.dataset.institutionIndex = i;
         b.style.left = x + 'px'; b.style.top = y + 'px';
         b.style.setProperty('--lane', laneColor(inst));
         b.title = report.id + ' · ' + report.name + ' · ' + (report.relationship === 'direct' ? 'direct match' : 'related body');
         b.setAttribute('aria-label', 'Open ' + report.id + ', ' + report.name + ', ' + report.relationship + ' report');
-        var node = { report:report, i:i, x:x, y:y + 9, inst:inst };
+        var node = { report:report, i:i, x:x, y:y + 6, inst:inst };
         reportNodes.push(node);
         (reportNodesById[report.id] || (reportNodesById[report.id] = [])).push(node);
         if (!perInst[i]) perInst[i] = [];
