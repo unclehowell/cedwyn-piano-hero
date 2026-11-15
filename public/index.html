@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="app-version" content="0.6.0">
+<meta name="app-version" content="0.7.0">
 <title>Piano Hero · institutions and the record on a moving score · Cedwyn Estate</title>
 <meta name="description" content="A horizontal chronological score: one institutional piano key per row, events moving from oldest to newest towards a fixed sounding line, with evidence-backed links to forensic assessments and cited records.">
 <link rel="canonical" href="https://bucklerfamily.estate/piano-hero/">
@@ -11,25 +11,20 @@
 <meta property="og:description" content="Institutions as piano keys; a horizontal, moving chronology of events, assessments and citations.">
 <meta property="og:url" content="https://bucklerfamily.estate/piano-hero/">
 <meta name="theme-color" content="#14110d">
-<link rel="stylesheet" href="assets/ph.css?v=0.6.0">
+<link rel="stylesheet" href="assets/ph.css?v=0.7.0">
 <script>window.__cedwynLP="/piano-hero/"</script>
 <script src="/_cedwyn/ghf/ghf-boot.js?v=2.1.30"></script>
 </head>
 <body class="ph-body">
-<main id="ph" class="ph" aria-label="Piano Hero" data-version="0.6.0">
+<main id="ph" class="ph" aria-label="Piano Hero" data-version="0.7.0">
   <header class="ph-top">
     <div class="ph-brand">
       <h1>Piano Hero</h1>
-      <p id="ph-sub">Institutions as keys · oldest events at left · reports and citations connected</p>
     </div>
     <div class="ph-tools">
-      <label class="ph-filter"><span>Show events</span>
-        <select id="ph-filter" aria-label="Filter events">
-          <option value="all">All events</option>
-          <option value="p">Press, later citation and interpretation</option>
-          <option value="v">Verbatim records and transcripts</option>
-        </select>
-      </label>
+      <select id="ph-filter" hidden aria-hidden="true" tabindex="-1">
+        <option value="all" selected></option><option value="p"></option><option value="v"></option>
+      </select>
       <button type="button" id="ph-play" class="ph-play" aria-pressed="false" aria-label="Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5v14l11-7z"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
         <span id="ph-play-label">Play</span>
@@ -115,15 +110,15 @@
   </dialog>
 
   <dialog id="ph-version-dialog" class="ph-version-dialog" aria-labelledby="ph-version-title">
-    <header><b id="ph-version-title">Piano Hero · version 0.6.0</b><button type="button" id="ph-version-close" class="ph-close" aria-label="Close">×</button></header>
+    <header><b id="ph-version-title">Piano Hero · version 0.7.0</b><button type="button" id="ph-version-close" class="ph-close" aria-label="Close">×</button></header>
     <div class="version-body">
-      <p><strong>0.6.0 · 15 November 2026</strong></p>
-      <p>The score is now horizontal and chronological: oldest periods at the left, newest at the right. Playback moves the year, quarter and month columns right-to-left together towards the fixed sounding line.</p>
-      <p>The 88 institution rows are now the piano keys. Each key opens its mapped forensic assessment report or reports. Coloured solid connectors link events to the institution report; dashed connectors link the report to catalogue records explicitly cited in its text. Direct and related-body report mappings are distinguished.</p>
+      <p><strong>0.7.0 · 15 November 2026</strong></p>
+      <p>The score is horizontal and chronological: oldest periods at the left, newest at the right. Playback moves the year, quarter and month columns right-to-left together towards the fixed sounding line. The webapp now fits the available screen height, scales all 88 lanes to the viewport and has no vertical page or score scrolling.</p>
+      <p>Play/Pause floats above the score and stays in view while browsing. The 88 institution rows are the piano keys. Each key opens its mapped forensic assessment report or reports. Coloured solid connectors link events to the institution report; dashed connectors link the report to catalogue records explicitly cited in its text. Direct and related-body report mappings are distinguished.</p>
       <p>Event preview images are selectable controls. Selecting one opens the full catalogue record in the detail modal. Report and record citations are loaded from the central catalogue and forensic assessment source.</p>
     </div>
   </dialog>
 </main>
-<script src="assets/ph.js?v=0.6.0" defer></script>
+<script src="assets/ph.js?v=0.7.0" defer></script>
 </body>
 </html>
