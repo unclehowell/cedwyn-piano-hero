@@ -2,7 +2,7 @@
 
 **Live:** https://bucklerfamily.estate/piano-hero/ — served from this repo's `main/public/` by the Cloudflare Worker `bfe-piano-hero`. The worker reads the current `main` build and edge-caches it briefly.
 
-## Current experience · v0.7.2
+## Current experience · v0.7.3
 
 Piano Hero is a horizontal chronological score with one institution or activity-party lane for each of the 88 named parties:
 
