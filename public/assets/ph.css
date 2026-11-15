@@ -245,3 +245,8 @@ body.ph-body{height:100vh;height:100dvh;overflow:hidden}
   .ph-label-sub{display:none}
 }
 @media(prefers-reduced-motion:reduce){.ph-play{transition:none}}
+
+
+/* 0.7.2 — bind the left piano key rail to the exact score viewport height. */
+.ph-key-rail{height:auto;align-self:start}
+.ph-key-list{flex:0 0 auto;height:auto;overflow:hidden}

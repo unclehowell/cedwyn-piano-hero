@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="app-version" content="0.7.1">
+<meta name="app-version" content="0.7.2">
 <title>Piano Hero · institutions and the record on a moving score · Cedwyn Estate</title>
 <meta name="description" content="A horizontal chronological score: one institutional piano key per row, events moving from oldest to newest towards a fixed sounding line, with evidence-backed links to forensic assessments and cited records.">
 <link rel="canonical" href="https://bucklerfamily.estate/piano-hero/">
@@ -16,7 +16,7 @@
 <script src="/_cedwyn/ghf/ghf-boot.js?v=2.1.30"></script>
 </head>
 <body class="ph-body">
-<main id="ph" class="ph" aria-label="Piano Hero" data-version="0.7.1">
+<main id="ph" class="ph" aria-label="Piano Hero" data-version="0.7.2">
   <header class="ph-top">
     <div class="ph-brand">
       <h1>Piano Hero</h1>
@@ -44,7 +44,7 @@
       <input id="ph-progress" type="range" min="0" max="556" step="0.1" value="0" aria-label="Timeline position">
       <span id="ph-progress-label">Beginning · 1496</span>
     </div>
-    <div class="ph-counts"><strong id="ph-event-count">625</strong><span>occupied event cells</span><b id="ph-report-count">64</b><span>assessments</span></div>
+    
   </section>
 
   <div class="ph-legend" aria-label="Connection legend">
@@ -110,15 +110,15 @@
   </dialog>
 
   <dialog id="ph-version-dialog" class="ph-version-dialog" aria-labelledby="ph-version-title">
-    <header><b id="ph-version-title">Piano Hero · version 0.7.1</b><button type="button" id="ph-version-close" class="ph-close" aria-label="Close">×</button></header>
+    <header><b id="ph-version-title">Piano Hero · version 0.7.2</b><button type="button" id="ph-version-close" class="ph-close" aria-label="Close">×</button></header>
     <div class="version-body">
-      <p><strong>0.7.1 · 15 November 2026</strong></p>
+      <p><strong>0.7.2 · 15 November 2026</strong></p>
       <p>The score is horizontal and chronological: oldest periods at the left, newest at the right. Playback moves the year, quarter and month columns right-to-left together towards the fixed sounding line. The webapp now fits the available screen height, scales all 88 lanes to the viewport and has no vertical page or score scrolling.</p>
       <p>Play/Pause floats above the score and stays in view while browsing. The 88 institution rows are the piano keys. Each key opens its mapped forensic assessment report or reports. Coloured solid connectors link events to the institution report; dashed connectors link the report to catalogue records explicitly cited in its text. Direct and related-body report mappings are distinguished.</p>
       <p>Event preview images are selectable controls. Selecting one opens the full catalogue record in the detail modal. Report and record citations are loaded from the central catalogue and forensic assessment source.</p>
     </div>
   </dialog>
 </main>
-<script src="assets/ph.js?v=0.7.1" defer></script>
+<script src="assets/ph.js?v=0.7.2" defer></script>
 </body>
 </html>

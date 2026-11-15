@@ -1,4 +1,4 @@
-/* Piano Hero 0.7.1 — viewport-fitted score with floating playback control. */
+/* Piano Hero 0.7.2 — exact score-height fit with floating playback control. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -347,15 +347,15 @@
     var appTop = Math.max(0, app.getBoundingClientRect().top);
     var targetAppHeight = Math.max(240, viewportHeight - appTop);
     if (Math.abs(app.clientHeight - targetAppHeight) > 1.5) app.style.height = targetAppHeight.toFixed(2) + 'px';
-    var rulerEl = $('ph-year-ruler');
-    var rulerHeight = rulerEl ? rulerEl.getBoundingClientRect().height : 38;
-    var available = laneScroll.clientHeight - rulerHeight;
+    var available = scoreViewport.clientHeight;
     if (!available || available <= 0) return;
     var nextRow = Math.max(0.75, available / N);
     if (Math.abs(nextRow - ROW_H) < 0.05) return;
     var keep = progressR;
     ROW_H = nextRow;
     app.style.setProperty('--ph-row', ROW_H.toFixed(3) + 'px');
+    keyList.style.flex = '0 0 auto';
+    keyList.style.height = (N * ROW_H).toFixed(2) + 'px';
     buildColumns();
     buildRulerAndGrid();
     buildMarkers();
@@ -726,14 +726,12 @@
       D=data[0];TH=data[1].thumbs||{};F=data[2];
       N=D.institutions.length;Q=D.rows.length;ROW_H=parseFloat(getComputedStyle(app).getPropertyValue('--ph-row'))||42;
       var g=geometry(N);K=g.keys;
-      $('ph-event-count').textContent=D.counts.occupied_cells;
-      $('ph-report-count').textContent=F.assessments.length;
       progress.max=Q;
       buildColumns();buildKeys();buildRulerAndGrid();buildMarkers();buildReportMarkersAndLines();buildSegs();
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.7.1',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.2',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
