@@ -1,4 +1,4 @@
-/* Piano Hero 0.7.2 — exact score-height fit with floating playback control. */
+/* Piano Hero 0.7.3 — sounding institution keys expand within a fixed-width rail. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -16,6 +16,7 @@
   if (!app) return;
 
   var D = null, F = null, TH = {}, N = 0, Q = 0, ROW_H = 42, RULER_H = 56,
+      ROW_TOPS = [], ROW_HEIGHTS = [], ROW_TOTAL_H = 0, SOUNDING_ROWS = [];
       PLAYHEAD_X = 136, X = [], W = [], TOTAL_W = 0, K = [],
       notes = [], rows = [], keyEls = [], eventEls = [],
       reportNodes = [], eventRefs = {}, reportNodesById = {},
@@ -118,6 +119,115 @@
     if (/^\d{4}-\d\d$/.test(label)) return 50;
     return 42;
   }
+
+  function rowTop(i) { return ROW_TOPS[i] == null ? i * ROW_H : ROW_TOPS[i]; }
+  function rowHeight(i) { return ROW_HEIGHTS[i] == null ? ROW_H : ROW_HEIGHTS[i]; }
+  function rowCenter(i) { return rowTop(i) + rowHeight(i) / 2; }
+  function laneMarkerSize(i) { return Math.max(2, Math.min(16, rowHeight(i) * 1.2)); }
+
+  function computeLaneLayout(activeRows, available) {
+    var usable = Math.max(1, Number(available) || Number(scoreViewport.clientHeight) || N * ROW_H);
+    var active = Object.create(null), activeCount = 0;
+    (activeRows || []).forEach(function (i) {
+      i = +i;
+      if (i >= 0 && i < N && !active[i]) { active[i] = true; activeCount++; }
+    });
+    ROW_TOTAL_H = usable;
+    ROW_H = usable / Math.max(1, N);
+    ROW_HEIGHTS = new Array(N);
+    ROW_TOPS = new Array(N);
+    if (!activeCount || activeCount === N) {
+      for (var i = 0; i < N; i++) ROW_HEIGHTS[i] = ROW_H;
+    } else {
+      // Give sounding keys roughly twice their normal height. At the 48-key
+      // October 2026 peak, cap this by the space left after compact silent lanes.
+      var idleFloor = Math.min(2.35, Math.max(0.7, ROW_H * 0.38));
+      var activeGoal = Math.min(16, Math.max(8.4, ROW_H * 2));
+      var activeMax = (usable - (N - activeCount) * idleFloor) / activeCount;
+      var activeHeight = Math.max(0.7, Math.min(activeGoal, activeMax));
+      var idleHeight = (usable - activeCount * activeHeight) / (N - activeCount);
+      if (idleHeight < 0.7) {
+        idleHeight = 0.7;
+        activeHeight = Math.max(0.7, (usable - (N - activeCount) * idleHeight) / activeCount);
+      }
+      for (var k = 0; k < N; k++) ROW_HEIGHTS[k] = active[k] ? activeHeight : idleHeight;
+    }
+    var cursor = 0;
+    for (var j = 0; j < N; j++) {
+      ROW_TOPS[j] = cursor;
+      cursor += ROW_HEIGHTS[j];
+    }
+    if (N) ROW_HEIGHTS[N - 1] += usable - cursor;
+    app.style.setProperty('--ph-row', ROW_H.toFixed(3) + 'px');
+    app.classList.toggle('ph-has-sounding', activeCount > 0);
+  }
+
+
+  function soundingKeyLabel(name) {
+    var shortNames = {
+      'Church of England archives (Lambeth Palace)':'Lambeth Palace Archives',
+      'Government Legal Department (Bona Vacantia)':'Government Legal Department',
+      "Prime Minister's Office / Cabinet Office":'PMO / Cabinet Office',
+      'Cardiff and Vale University Health Board':'Cardiff & Vale UHB',
+      'Department for Culture, Media and Sport':'Culture, Media & Sport',
+      'Local Government Association / WLGA':'Local Government Assoc. / WLGA',
+      'Counter Terrorism Policing (NaCTSO)':'Counter Terrorism Policing',
+      'Heneb / Historic Environment Record':'Heneb / HER',
+      'Family evidence repository and wiki':'Family evidence repository',
+      'Holder not stated or not located':'Holder not located',
+      "Coroner's Service (RCT Council)":"Coroner's Service (RCT)",
+      'Member of Parliament (office)':'MP (office)',
+      'Mount Stuart (Bute archive)':'Bute archive (Mount Stuart)'
+    };
+    return shortNames[name] || name;
+  }
+
+  function applyLaneGeometry() {
+    keyList.style.flex = '0 0 auto';
+    keyList.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
+    keyList.style.position = 'relative';
+    keyEls.forEach(function (key, i) {
+      var top = rowTop(i), height = rowHeight(i);
+      key.style.top = top.toFixed(2) + 'px';
+      key.style.height = height.toFixed(2) + 'px';
+      key.style.setProperty('--lane-row', height.toFixed(2) + 'px');
+      var sounding = SOUNDING_ROWS.indexOf(i) !== -1;
+      key.classList.toggle('sounding', sounding);
+      var keyName = key.querySelector('.ph-key-name');
+      if (keyName) keyName.textContent = sounding ? soundingKeyLabel(D.institutions[i].name) : D.institutions[i].name;
+    });
+    timeInner.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
+    bands.style.height = ROW_TOTAL_H.toFixed(2) + 'px';
+    Array.prototype.forEach.call(bands.children, function (band, i) {
+      band.style.top = rowTop(i).toFixed(2) + 'px';
+      band.style.height = rowHeight(i).toFixed(2) + 'px';
+    });
+    notes.forEach(function (note, i) {
+      var marker = eventEls[i];
+      if (!marker) return;
+      var size = laneMarkerSize(note.i);
+      marker.style.top = rowCenter(note.i).toFixed(2) + 'px';
+      marker.style.width = size.toFixed(2) + 'px';
+      marker.style.height = size.toFixed(2) + 'px';
+    });
+    svg.setAttribute('height', ROW_TOTAL_H);
+    svg.setAttribute('viewBox', '0 0 ' + TOTAL_W + ' ' + ROW_TOTAL_H);
+  }
+
+  function setSoundingRows(indices) {
+    var next = Array.from(new Set((indices || []).map(Number))).filter(function (i) {
+      return Number.isInteger(i) && i >= 0 && i < N;
+    }).sort(function (a,b) { return a-b; });
+    if (next.length === SOUNDING_ROWS.length && next.every(function (v,i) { return v === SOUNDING_ROWS[i]; })) return;
+    SOUNDING_ROWS = next;
+    if (!built || !N) return;
+    var available = scoreViewport.clientHeight || ROW_TOTAL_H;
+    if (!available) return;
+    computeLaneLayout(SOUNDING_ROWS, available);
+    applyLaneGeometry();
+    buildReportMarkersAndLines();
+  }
+
   function buildColumns() {
     X = []; W = []; var x = 0;
     for (var q = 0; q < Q; q++) {
@@ -127,9 +237,9 @@
     TOTAL_W = x;
     ruler.style.width = TOTAL_W + 'px';
     timeInner.style.width = TOTAL_W + 'px';
-    timeInner.style.height = (N * ROW_H) + 'px';
-    svg.setAttribute('width', TOTAL_W); svg.setAttribute('height', N * ROW_H);
-    svg.setAttribute('viewBox', '0 0 ' + TOTAL_W + ' ' + (N * ROW_H));
+    timeInner.style.height = ROW_TOTAL_H + 'px';
+    svg.setAttribute('width', TOTAL_W); svg.setAttribute('height', ROW_TOTAL_H);
+    svg.setAttribute('viewBox', '0 0 ' + TOTAL_W + ' ' + ROW_TOTAL_H);
   }
   function titleFor(inst) { return inst.name + ' · ' + inst.events + ' active days'; }
   function buildKeys() {
@@ -138,6 +248,9 @@
       var inst = D.institutions[i], rel = (F.institution_reports || {})[inst.id] || [];
       var b = makeButton('', 'ph-inst-key ' + (k.w ? 'white' : 'black'), keyList);
       b.dataset.index = i;
+      b.style.position = 'absolute'; b.style.left = '0'; b.style.right = '0';
+      b.style.top = rowTop(i) + 'px'; b.style.height = rowHeight(i) + 'px';
+      b.style.setProperty('--lane-row', rowHeight(i) + 'px');
       b.style.setProperty('--lane', laneColor(inst));
       b.title = titleFor(inst);
       b.setAttribute('aria-label', 'Institution / party key: ' + inst.name + '. ' + rel.length + ' mapped forensic reports. Open details.');
@@ -164,10 +277,11 @@
       col.style.left = left + 'px'; col.style.width = w + 'px';
       if (/^(\d{4}0|1500s)$/.test(label)) col.classList.add('decade');
     }
-    bands.style.height = (N * ROW_H) + 'px';
+    bands.style.height = ROW_TOTAL_H + 'px';
     for (var i = 0; i < N; i++) {
       var line = el('div', 'ph-lane-band', bands);
-      line.style.top = (i * ROW_H) + 'px';
+      line.style.top = rowTop(i) + 'px';
+      line.style.height = rowHeight(i) + 'px';
       line.style.setProperty('--lane', laneColor(D.institutions[i]));
     }
   }
@@ -205,7 +319,9 @@
       var b = makeButton('', 'ph-event-marker', markers);
       b.dataset.eventIndex = index;
       b.style.left = xForRow(q) + 'px';
-      b.style.top = (i * ROW_H + ROW_H / 2) + 'px';
+      var markerSize = laneMarkerSize(i);
+      b.style.top = rowCenter(i) + 'px';
+      b.style.width = markerSize + 'px'; b.style.height = markerSize + 'px';
       b.style.setProperty('--lane', laneColor(inst));
       b.title = rowLabel(q) + ' · ' + inst.name + ' · ' + noteTitle(o);
       if (o.primary && TH[o.primary]) {
@@ -245,15 +361,18 @@
       (rels[inst.id] || []).forEach(function (report, ri) {
         var b = makeButton('FA', 'ph-report-marker ' + (report.relationship === 'related' ? 'related' : 'direct'), markers);
         var count = (rels[inst.id] || []).length;
-        var top = count <= 1 ? (ROW_H - 12) / 2 : 4 + (ROW_H - 20) * ri / (count - 1);
-        var y = i * ROW_H + top;
+        var laneH = rowHeight(i), pinH = Math.max(1.6, Math.min(10, laneH * 0.78));
+        var top = count <= 1 ? (laneH - pinH) / 2 : (laneH - pinH) * ri / (count - 1);
+        var y = rowTop(i) + top;
         var x = reportX(report);
         b.dataset.reportId = report.id; b.dataset.institutionIndex = i;
         b.style.left = x + 'px'; b.style.top = y + 'px';
+        b.style.width = Math.min(23, Math.max(4, pinH * 1.9)) + 'px';
+        b.style.height = pinH + 'px'; b.style.fontSize = Math.max(3, pinH * 0.58) + 'px';
         b.style.setProperty('--lane', laneColor(inst));
         b.title = report.id + ' · ' + report.name + ' · ' + (report.relationship === 'direct' ? 'direct match' : 'related body');
         b.setAttribute('aria-label', 'Open ' + report.id + ', ' + report.name + ', ' + report.relationship + ' report');
-        var node = { report:report, i:i, x:x, y:y + 6, inst:inst };
+        var node = { report:report, i:i, x:x, y:y + pinH / 2, inst:inst };
         reportNodes.push(node);
         (reportNodesById[report.id] || (reportNodesById[report.id] = [])).push(node);
         if (!perInst[i]) perInst[i] = [];
@@ -269,7 +388,7 @@
     notes.forEach(function (o) {
       var targets = perInst[o.i] || [];
       if (!targets.length || !inFilter(o)) return;
-      var inst = D.institutions[o.i], x1 = X[o.q], y1 = o.i * ROW_H + ROW_H / 2;
+      var inst = D.institutions[o.i], x1 = X[o.q], y1 = rowCenter(o.i);
       targets.forEach(function (node) {
         path(x1,y1,node.x,node.y,'event-report',laneColor(inst));
         if (node.report.relationship === 'related') {
@@ -281,7 +400,7 @@
       (node.report.citation_ids || []).forEach(function (id) {
         (eventRefs[id] || []).forEach(function (o) {
           if (!inFilter(o)) return;
-          var x2 = X[o.q], y2 = o.i * ROW_H + ROW_H / 2;
+          var x2 = X[o.q], y2 = rowCenter(o.i);
           path(node.x,node.y,x2,y2,'report-citation',laneColor(node.inst));
         });
       });
@@ -349,16 +468,12 @@
     if (Math.abs(app.clientHeight - targetAppHeight) > 1.5) app.style.height = targetAppHeight.toFixed(2) + 'px';
     var available = scoreViewport.clientHeight;
     if (!available || available <= 0) return;
-    var nextRow = Math.max(0.75, available / N);
-    if (Math.abs(nextRow - ROW_H) < 0.05) return;
     var keep = progressR;
-    ROW_H = nextRow;
-    app.style.setProperty('--ph-row', ROW_H.toFixed(3) + 'px');
-    keyList.style.flex = '0 0 auto';
-    keyList.style.height = (N * ROW_H).toFixed(2) + 'px';
+    computeLaneLayout(SOUNDING_ROWS, available);
     buildColumns();
     buildRulerAndGrid();
     buildMarkers();
+    applyLaneGeometry();
     buildReportMarkersAndLines();
     positionAt(keep);
   }
@@ -629,6 +744,7 @@
   }
   function refreshFilter() {
     notes.forEach(function(o){o.el.classList.toggle('off',!inFilter(o));});
+    if (SOUNDING_ROWS.length) setSoundingRows(notes.filter(function(o){return SOUNDING_ROWS.indexOf(o.i)!==-1 && inFilter(o);}).map(function(o){return o.i;}));
     buildSegs();
     buildReportMarkersAndLines();
     progress.max=Q;
@@ -637,6 +753,7 @@
   function stop(hold) {
     playing=false;cancelAnimationFrame(raf);raf=0;
     playBtn.setAttribute('aria-pressed','false');playBtn.setAttribute('aria-label','Play');playLabel.textContent='Play';
+    setSoundingRows([]);
     if(hold)holdLabel();
   }
   function start() {
@@ -666,6 +783,7 @@
   }
   function fire(q) {
     var arr=rows[q]?rows[q].filter(inFilter):[];
+    setSoundingRows(arr.map(function(o){return o.i;}));
     if(!arr.length){tick();return;}
     arr.forEach(function(o,j){
       var vel=(0.48+0.52*Math.min(1,Math.log(1+o.n)/Math.log(9)))/Math.sqrt(Math.max(1,arr.length/3));
@@ -726,12 +844,13 @@
       D=data[0];TH=data[1].thumbs||{};F=data[2];
       N=D.institutions.length;Q=D.rows.length;ROW_H=parseFloat(getComputedStyle(app).getPropertyValue('--ph-row'))||42;
       var g=geometry(N);K=g.keys;
+      computeLaneLayout([], scoreViewport.clientHeight || N * ROW_H);
       progress.max=Q;
       buildColumns();buildKeys();buildRulerAndGrid();buildMarkers();buildReportMarkersAndLines();buildSegs();
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.7.2',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.3',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}

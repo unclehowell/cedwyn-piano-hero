@@ -2,12 +2,13 @@
 
 **Live:** https://bucklerfamily.estate/piano-hero/ — served from this repo's `main/public/` by the Cloudflare Worker `bfe-piano-hero`. The worker reads the current `main` build and edge-caches it briefly.
 
-## Current experience · v0.7.2
+## Current experience · v0.7.3
 
 Piano Hero is a horizontal chronological score with one institution or activity-party lane for each of the 88 named parties:
 
 - **Institution keys:** the left-hand piano rail keeps the names in fixed vertical rows. The rows use an 88-note piano pitch sequence; selecting a key opens its mapped institutional forensic assessment report(s).
 - **Chronology:** years run oldest at the left to newest at the right. The 1500s are one column; there is one column per year from 1600, then quarters from 1988-Q1 to 2025-Q4, then months from January 2026. The app is viewport-height, has no vertical page or score scrolling, and scales all 88 rows to the measured score viewport below the injected site header, and sizes the left key rail to the same 88-row height on resize and orientation changes.
+- **Sounding keys:** every party active in the current playback column expands vertically and highlights in its own colour. Active names are enlarged without changing the rail width; simultaneous keys share the exact available height and silent lanes compact into thin strips. Long labels use readable short forms on-key, while the full institution name remains in the tooltip and accessible label. The layout is sized for the 48-party October 2026 peak; pausing or reaching an empty column restores equal-height keys.
 - **Playback:** one Play/Pause button moves the year ruler, columns, event markers and connector lines right-to-left in unison towards a fixed sounding line. An event sounds on its institution's piano key as its column reaches that line. The ×2 control, event filter and backing-sound toggle remain available.
 - **Event details:** the image preview is a button, not a linked title or subheading. Selecting an event opens its context and the full central catalogue record in the detail modal. Other catalogue IDs in the same event are selectable from the modal.
 - **Forensic graph:** each institution has its own colour. Solid lines connect its timeline events to its mapped assessment report; dotted lines distinguish related-body report mappings; dashed lines connect a report to catalogue IDs explicitly named in the assessment text where those records also appear on the activity timeline.
