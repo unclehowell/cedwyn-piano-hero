@@ -1,4 +1,4 @@
-/* Piano Hero 0.7.3 — sounding institution keys expand within a fixed-width rail. */
+/* Piano Hero 0.7.4 — sounding institution keys expand within a fixed-width rail. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -16,7 +16,7 @@
   if (!app) return;
 
   var D = null, F = null, TH = {}, N = 0, Q = 0, ROW_H = 42, RULER_H = 56,
-      ROW_TOPS = [], ROW_HEIGHTS = [], ROW_TOTAL_H = 0, SOUNDING_ROWS = [];
+      ROW_TOPS = [], ROW_HEIGHTS = [], ROW_TOTAL_H = 0, SOUNDING_ROWS = [],
       PLAYHEAD_X = 136, X = [], W = [], TOTAL_W = 0, K = [],
       notes = [], rows = [], keyEls = [], eventEls = [],
       reportNodes = [], eventRefs = {}, reportNodesById = {},
@@ -850,7 +850,7 @@
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.7.3',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.4',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
