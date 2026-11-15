@@ -319,3 +319,7 @@ body.ph-body{height:100vh;height:100dvh;overflow:hidden}
   .ph-play{bottom:calc(49px + env(safe-area-inset-bottom,0px))}
   .ph-next{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 }
+
+/* Keep the score lanes aligned with the selected-record panel and timeline. */
+.ph-key-rail,.ph-timeline{height:100%;min-height:0}
+.ph-key-rail{align-self:stretch}
