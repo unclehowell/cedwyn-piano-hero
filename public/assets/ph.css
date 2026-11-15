@@ -250,3 +250,16 @@ body.ph-body{height:100vh;height:100dvh;overflow:hidden}
 /* 0.7.2 — bind the left piano key rail to the exact score viewport height. */
 .ph-key-rail{height:auto;align-self:start}
 .ph-key-list{flex:0 0 auto;height:auto;overflow:hidden}
+
+
+/* 0.7.3 — active/sounding institution names expand vertically, never horizontally. */
+.ph-key-list{position:relative;display:block;flex:0 0 auto;min-height:0;overflow:hidden}
+.ph-inst-key{position:absolute;left:0;right:0;top:0;width:100%;height:var(--lane-row,var(--ph-row));min-height:0;flex:0 0 auto;padding:0 5px;gap:4px;display:flex;align-items:center;overflow:hidden}
+.ph-inst-key.sounding{z-index:5;background:linear-gradient(90deg,color-mix(in srgb,var(--lane) 28%,#fff),color-mix(in srgb,var(--lane) 12%,#fff));border-left-width:4px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--lane) 50%,transparent)}
+.ph-inst-key.sounding .ph-key-note,.ph-inst-key.sounding .ph-key-meta{display:none!important}
+.ph-inst-key.sounding .ph-key-name{display:block;flex:1 1 auto;min-width:0;font-size:clamp(7px,calc(var(--lane-row)*.82),10px);line-height:1;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#17130f}
+.ph-has-sounding .ph-inst-key:not(.sounding) .ph-key-name,
+.ph-has-sounding .ph-inst-key:not(.sounding) .ph-key-note,
+.ph-has-sounding .ph-inst-key:not(.sounding) .ph-key-meta{display:none!important}
+.ph-has-sounding .ph-inst-key:not(.sounding){border-left-width:2px;padding:0;background:rgba(120,105,80,.09)}
+.ph-key-rail{min-height:0}
