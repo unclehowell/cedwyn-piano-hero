@@ -1,0 +1,18 @@
+{
+  "schema": "cedwyn-piano-hero/curated-events/1",
+  "events": [
+    {
+      "id": "GHF-E113",
+      "period": "2025-Q3",
+      "date": "25 July 2025",
+      "institution_id": "online",
+      "kind": "media",
+      "type": "YouTube online publication",
+      "title": "1988 ITV / HTV Wales report — viewing copy published",
+      "summary": "The project chronology records the YouTube viewing copy linked at GHF-E113 as published on 25 July 2025. The uploader is not established. This is distinct from National Library of Wales Watch and Listen item 507738, “Eviction News Material, 30 November 1988”; the relationship between the two copies is unconfirmed.",
+      "url": "https://cedwyn.bucklerfamily.estate/wiki/evidence-library/ghf-e113-itv-wales-report-great-house-farm-1988/",
+      "video_url": "https://www.youtube.com/watch?v=4GXmR7mAas0",
+      "image_url": "https://img.youtube.com/vi/4GXmR7mAas0/hqdefault.jpg"
+    }
+  ]
+}
