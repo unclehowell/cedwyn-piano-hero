@@ -1,4 +1,4 @@
-/* Piano Hero 0.6.0 — institutions as keys; events move right-to-left along a horizontal chronological score. */
+/* Piano Hero 0.7.0 — viewport-fitted score with floating playback control. */
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -340,6 +340,30 @@
     progress.value = String(progressR);
     progressLabel.textContent = progressR <= 0 ? 'Beginning · ' + D.rows[0] : progressText(progressR);
   }
+
+  function fitLayout() {
+    if (!D || !built || !N) return;
+    var rulerEl = $('ph-year-ruler');
+    var rulerHeight = rulerEl ? rulerEl.getBoundingClientRect().height : 38;
+    var available = laneScroll.clientHeight - rulerHeight;
+    if (!available || available <= 0) return;
+    var nextRow = Math.max(0.75, available / N);
+    if (Math.abs(nextRow - ROW_H) < 0.05) return;
+    var keep = progressR;
+    ROW_H = nextRow;
+    app.style.setProperty('--ph-row', ROW_H.toFixed(3) + 'px');
+    buildColumns();
+    buildRulerAndGrid();
+    buildMarkers();
+    buildReportMarkersAndLines();
+    positionAt(keep);
+  }
+  var fitFrame = 0;
+  function scheduleFitLayout() {
+    if (fitFrame) return;
+    fitFrame = requestAnimationFrame(function () { fitFrame = 0; fitLayout(); });
+  }
+
   function clearLabTimer() {
     if (labTimer) clearTimeout(labTimer);
     labTimer = 0; labUntil = 0;
@@ -698,7 +722,6 @@
       D=data[0];TH=data[1].thumbs||{};F=data[2];
       N=D.institutions.length;Q=D.rows.length;ROW_H=parseFloat(getComputedStyle(app).getPropertyValue('--ph-row'))||42;
       var g=geometry(N);K=g.keys;
-      var sub=$('ph-sub');sub.textContent=N+' institution keys · '+Q+' chronological columns · '+F.assessments.length+' assessments, with source-backed citations';
       $('ph-event-count').textContent=D.counts.occupied_cells;
       $('ph-report-count').textContent=F.assessments.length;
       progress.max=Q;
@@ -706,18 +729,19 @@
       positionAt(0);built=true;
       $('ph-data-note').textContent='Activity data '+D.generated+' · assessment source '+F.source.updated+' · 13 unassigned reports remain in the full report list';
       window.PianoHero={
-        version:'0.6.0',play:start,pause:function(){stop(true);},toggle:togglePlay,
+        version:'0.7.0',play:start,pause:function(){stop(true);},toggle:togglePlay,
         data:D,forensic:F,openInstitution:showInstitution,openReport:showReport,
         openEvent:showEvent,openRecord:showRecord,seek:function(r){setProgress(r,true);},
         rowsPassed:function(){return progressR;},segments:function(){return segs;}
       };
-      setTimeout(function(){ROW_H=parseFloat(getComputedStyle(app).getPropertyValue('--ph-row'))||42;positionAt(progressR);},150);
+      scheduleFitLayout();
     }).catch(function(err){
-      $('ph-sub').textContent='The score could not load: '+err.message;
       $('ph-data-note').textContent='Reload the page after checking the activity and assessment data sources.';
     });
   }
   // Keep the timeline and ruler aligned horizontally as the user scrubs; the vertical institution rail stays fixed.
   $('ph-now').textContent='1496';
+  window.addEventListener('resize', scheduleFitLayout, {passive:true});
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleFitLayout, {passive:true});
   loadData();
 })();
