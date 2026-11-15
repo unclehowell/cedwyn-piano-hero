@@ -4,7 +4,7 @@
 
 ## Current experience · v0.6.0
 
-Piano Hero is a horizontal chronological score with one institutional lane for each of the 88 activity parties:
+Piano Hero is a horizontal chronological score with one institution or activity-party lane for each of the 88 named parties:
 
 - **Institution keys:** the left-hand piano rail keeps the names in fixed vertical rows. The rows use an 88-note piano pitch sequence; selecting a key opens its mapped institutional forensic assessment report(s).
 - **Chronology:** years run oldest at the left to newest at the right. The 1500s are one column; there is one column per year from 1600, then quarters from 1988-Q1 to 2025-Q4, then months from January 2026.
