@@ -443,6 +443,7 @@
     var url=detailOpen.dataset.url;if(url)window.open(url,'_blank','noopener,noreferrer');
   }
   function showRecord(id, note, trigger) {
+    if(playing)stop(true);
     focusBack=trigger||document.activeElement;
     var rec=recordData(id), title=rec&&rec.title?rec.title:id;
     resetDetail(title,id+' · catalogue record');
@@ -467,6 +468,7 @@
     openDetail();
   }
   function showEvent(o,trigger) {
+    if(playing)stop(true);
     focusBack=trigger||document.activeElement;
     resetDetail(noteTitle(o),'Event · '+D.rows[o.q]+' · '+D.institutions[o.i].name);
     detailSummary.textContent=D.institutions[o.i].name+' was active in '+D.rows[o.q]+' ('+o.n+' active day(s)). '+(o.refs.length?'Catalogue references: '+o.refs.join(', '):'No catalogue ID was attached to this activity cell.');
@@ -481,6 +483,7 @@
     openDetail();
   }
   function showReport(report, inst, trigger) {
+    if(playing)stop(true);
     focusBack=trigger||document.activeElement;
     currentReport=report;currentInstitution=inst;
     resetDetail(report.name,report.id+' · forensic assessment · v'+report.version);
@@ -513,6 +516,7 @@
     }
   }
   function showInstitution(inst,trigger) {
+    if(playing)stop(true);
     focusBack=trigger||document.activeElement;
     var reports=(F.institution_reports||{})[inst.id]||[];
     resetDetail(inst.name,'Institutional forensic assessment · '+inst.events+' activity day(s)');
@@ -538,11 +542,24 @@
     detailOpen.hidden=false;detailOpen.dataset.url=report.url;detailOpen.textContent='Open assessment ↗';
     setFrame(report.url,'Forensic assessment: '+report.name);
     el('div','ph-side-section',detailSide).textContent='Cited catalogue records';
-    if((report.citation_ids||[]).length){report.citation_ids.forEach(function(id){var rec=recordData(id);var cb=makeButton((rec&&rec.d?rec.d+' · ':'')+id,'ph-cite-button',detailSide);cb.addEventListener('click',function(){showRecord(id,null,cb);});});}
-    else {var no=el('p','ph-side-intro',detailSide);no.textContent='No catalogue IDs were found in this assessment text extraction.';}
+    if((report.citation_ids||[]).length){
+      report.citation_ids.forEach(function(id){
+        var rec=recordData(id),cb=makeButton((rec&&rec.d?rec.d+' · ':'')+id,'ph-cite-button',detailSide);
+        cb.addEventListener('click',function(){
+          showRecord(id,null,cb);
+          var backBtn=makeButton('← Back to '+report.id,'ph-back-report',detailSide);
+          backBtn.addEventListener('click',function(){showInstitution(inst,backBtn);});
+          detailSide.insertBefore(backBtn,detailSide.firstChild);
+        });
+      });
+    } else {
+      var no=el('p','ph-side-intro',detailSide);
+      no.textContent='No catalogue IDs were identified in the cross-reference extracted from this report text.';
+    }
     openDetail();
   }
   function showAllReports(trigger) {
+    if(playing)stop(true);
     focusBack=trigger||document.activeElement;
     resetDetail('All institutional assessments','64 published reports · 13 not assigned to an institution key');
     detailSummary.textContent='Browse the complete published assessment register. The unassigned reports remain available here but are not connected to an institution lane without a supported mapping.';
